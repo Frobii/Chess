@@ -22,8 +22,10 @@ class Board
 
     def setup_board
         black_pawn = Pawn.new("b")
+        white_pawn = Pawn.new("w")
 
         board[1].map! { |cell| cell = black_pawn.symbol + " " }
+        board.reverse[1].map! { |cell| cell = white_pawn.symbol + " " }
     end
 
 end
