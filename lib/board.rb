@@ -1,3 +1,5 @@
+require_relative "./pieces/pawn.rb"
+
 class Board
     attr_accessor :board
 
@@ -18,8 +20,14 @@ class Board
         end
     end
 
+    def setup_board
+        black_pawn = Pawn.new("b")
+
+        board[1].map! { |cell| cell = black_pawn.symbol + " " }
+    end
+
 end
 
 a = Board.new
-
+a.setup_board
 a.draw_board
