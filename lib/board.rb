@@ -9,16 +9,25 @@ class Board
   attr_accessor :board
 
   def initialize
-      @board = Array.new(8) { Array.new(8) }
+    @board = Array.new(8) { Array.new(8) }
+    setup_board
   end
 
   def draw_board
       board.each_with_index do |row, row_index|
           row.each_with_index do |cell, col_index| 
             if (row_index + col_index).even?
-              print cell || "◾️" 
+              if cell.nil?
+                print "◾️"
+              else
+                print cell.symbol
+              end
             else
-              print cell || "◽️"
+              if cell.nil?
+                print "◽️"
+              else
+                print cell.symbol
+              end
             end
           end
           puts
@@ -26,48 +35,36 @@ class Board
   end
 
   def setup_board
-    black_pawn = Pawn.new("b")
-    black_queen = Queen.new("b")
-    black_king = King.new("b")
-    black_rook = Rook.new("b")
-    black_knight = Knight.new("b")
-    black_bishop = Bishop.new("b")
 
-    white_pawn = Pawn.new("w")
-    white_queen = Queen.new("w")
-    white_king = King.new("w")
-    white_rook = Rook.new("w")
-    white_knight = Knight.new("w")
-    white_bishop = Bishop.new("w")
-    
     # setup the pawns
-    board[1].map! { |cell| cell = black_pawn.symbol }
-    board.reverse[1].map!{ |cell| cell = white_pawn.symbol }
+    (0..7).each do |col|
+      board[1][col] = Pawn.new('b', [1, col])
+      board[6][col] = Pawn.new('w', [6, col])
+    end
 
     # setup the queens
-    board[0][4] = black_queen.symbol
-    board.reverse[0][3] = white_queen.symbol
+    board[0][4] = Queen.new("b", [0,4])
+    board[7][3] = Queen.new("w", [7,3])
 
     # setup the kings
-    board[0][3] = black_king.symbol
-    board.reverse[0][4] = white_king.symbol
+    board[0][3] = King.new("b", [0,3])
+    board[7][4] = King.new("w", [7,4])
 
     # setup the rooks
-    board[0][0], board[0][7] = black_rook.symbol , black_rook.symbol
-    board.reverse[0][0], board.reverse[0][7] = white_rook.symbol , white_rook.symbol
+    board[0][0], board[0][7] = Rook.new("b", [0,0]), Rook.new("b", [0,7])
+    board[7][0], board[7][7] = Rook.new("w", [7,0]), Rook.new("w", [7,7])
 
     # setup the knights
-    board[0][1], board[0][6] = black_knight.symbol , black_knight.symbol
-    board.reverse[0][1], board.reverse[0][6] = white_knight.symbol , white_knight.symbol
+    board[0][1], board[0][6] = Knight.new("b", [0,1]), Knight.new("b", [0,6])
+    board[7][1], board[7][6] = Knight.new("w", [7,1]), Knight.new("w", [7,6])
 
     # setup the bishops
-    board[0][2], board[0][5] = black_bishop.symbol, black_bishop.symbol
-    board.reverse[0][2], board.reverse[0][5] = white_bishop.symbol, white_bishop.symbol
+    board[0][2], board[0][5] = Bishop.new("b", [0,2]), Bishop.new("b", [0,5])
+    board[7][2], board[7][5] = Bishop.new("w", [7,2]), Bishop.new("w", [7,5])
 
   end
 
 end
 
 a = Board.new
-a.setup_board
 a.draw_board
