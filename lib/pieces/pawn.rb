@@ -8,4 +8,11 @@ class Pawn < Piece
         @symbol = "♙" if color == "w"
     end
 
+    def move_to
+
+        
+
+        super
+    end
+
 end
