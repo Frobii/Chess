@@ -41,28 +41,28 @@ class Board
     white_bishop = Bishop.new("w")
     
     # setup the pawns
-    board[1].map! { |cell| cell = black_pawn.symbol + " " }
-    board.reverse[1].map!{ |cell| cell = white_pawn.symbol + " " }
+    board[1].map! { |cell| cell = black_pawn.symbol }
+    board.reverse[1].map!{ |cell| cell = white_pawn.symbol }
 
     # setup the queens
-    board[0][4] = black_queen.symbol + " "
-    board.reverse[0][3] = white_queen.symbol + " "
+    board[0][4] = black_queen.symbol
+    board.reverse[0][3] = white_queen.symbol
 
     # setup the kings
-    board[0][3] = black_king.symbol + " "
-    board.reverse[0][4] = white_king.symbol + " "
+    board[0][3] = black_king.symbol
+    board.reverse[0][4] = white_king.symbol
 
     # setup the rooks
-    board[0][0], board[0][7] = black_rook.symbol + " ", black_rook.symbol + " "
-    board.reverse[0][0], board.reverse[0][7] = white_rook.symbol + " ", white_rook.symbol + " "
+    board[0][0], board[0][7] = black_rook.symbol , black_rook.symbol
+    board.reverse[0][0], board.reverse[0][7] = white_rook.symbol , white_rook.symbol
 
     # setup the knights
-    board[0][1], board[0][6] = black_knight.symbol + " ", black_knight.symbol + " "
-    board.reverse[0][1], board.reverse[0][6] = white_knight.symbol + " ", white_knight.symbol + " "
+    board[0][1], board[0][6] = black_knight.symbol , black_knight.symbol
+    board.reverse[0][1], board.reverse[0][6] = white_knight.symbol , white_knight.symbol
 
     # setup the bishops
-    board[0][2], board[0][5] = black_bishop.symbol + " ", black_bishop.symbol + " "
-    board.reverse[0][2], board.reverse[0][5] = white_bishop.symbol + " ", white_bishop.symbol + " "
+    board[0][2], board[0][5] = black_bishop.symbol, black_bishop.symbol
+    board.reverse[0][2], board.reverse[0][5] = white_bishop.symbol, white_bishop.symbol
 
   end
 
