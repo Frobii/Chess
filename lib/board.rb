@@ -2,6 +2,7 @@ require_relative "./pieces/pawn.rb"
 require_relative "./pieces/queen.rb"
 require_relative "./pieces/king.rb"
 require_relative "./pieces/rook.rb"
+require_relative "./pieces/knight.rb"
 
 class Board
   attr_accessor :board
@@ -28,12 +29,13 @@ class Board
     black_queen = Queen.new("b")
     black_king = King.new("b")
     black_rook = Rook.new("b")
-
+    black_knight = Knight.new("b")
 
     white_pawn = Pawn.new("w")
     white_queen = Queen.new("w")
     white_king = King.new("w")
     white_rook = Rook.new("w")
+    white_knight = Knight.new("w")
     
     # setup the pawns
     board[1].map! { |cell| cell = black_pawn.symbol + " " }
@@ -50,6 +52,10 @@ class Board
     # setup the rooks
     board[0][0], board[0][7] = black_rook.symbol + " ", black_rook.symbol + " "
     board.reverse[0][0], board.reverse[0][7] = white_rook.symbol + " ", white_rook.symbol + " "
+
+    # setup the knights
+    board[0][1], board[0][6] = black_knight.symbol + " ", black_knight.symbol + " "
+    board.reverse[0][1], board.reverse[0][6] = white_knight.symbol + " ", white_knight.symbol + " "
 
   end
 
