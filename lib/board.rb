@@ -1,5 +1,6 @@
 require_relative "./pieces/pawn.rb"
 require_relative "./pieces/queen.rb"
+require_relative "./pieces/king.rb"
 
 class Board
   attr_accessor :board
@@ -24,10 +25,12 @@ class Board
   def setup_board
     black_pawn = Pawn.new("b")
     black_queen = Queen.new("b")
+    black_king = King.new("w")
 
     white_pawn = Pawn.new("w")
     white_queen = Queen.new("w")
-
+    white_king = King.new("w")
+    
     # setup the pawns
     board[1].map! { |cell| cell = black_pawn.symbol + " " }
     board.reverse[1].map!{ |cell| cell = white_pawn.symbol + " " }
@@ -37,6 +40,8 @@ class Board
     board.reverse[0][3] = white_queen.symbol + " "
 
     # setup the kings
+    board[0][3] = black_king.symbol + " "
+    board.reverse[0][4] = white_king.symbol + " "
 
   end
 
