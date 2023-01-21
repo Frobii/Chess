@@ -9,7 +9,7 @@ class King < Piece
         @symbol = "♔ " if color == "w"
     end
 
-    def move_to
+    def move_to(new_position)
 
         
 

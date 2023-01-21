@@ -64,6 +64,16 @@ class Board
 
   end
 
+  def update_position(piece)
+    # places nil where the pawn used to be
+    x, y = piece.old_position[0].to_i, piece.old_position[1].to_i
+    board[x][y] = nil
+
+    # places a pawn where the user decided to make a move
+    x, y = piece.position[0].to_i, piece.position[1].to_i
+    board[x][y] = piece
+  end
+
 end
 
 a = Board.new

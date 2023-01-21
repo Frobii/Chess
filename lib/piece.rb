@@ -1,12 +1,17 @@
 class Piece
-    attr_accessor :color, :position
+    attr_accessor :color, :position, :old_position
 
-    def initialize(color, position)
+    def initialize(color, position, old_position = nil)
         @color = color
         @position = position
+        @old_position = old_position
     end
 
-    def move_to(new_postion)
-        @position = new_position
+    def move_to(input)
+        @old_position = self.position
+
+        new_position = input.split(" ")
+        self.position = new_position
+
     end
 end
