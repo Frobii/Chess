@@ -11,7 +11,8 @@ class Pawn < Piece
 
     def move_to(new_position)
         super(new_position)
-        
+
+        # status: currently working on the logic for illegal pawn moves
         new_pos_array = new_position.split(" ")
         x, y = new_pos_array[0].to_i, new_pos_array[1].to_i
         
