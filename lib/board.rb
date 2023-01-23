@@ -68,6 +68,8 @@ class Board
     
     # if an invalid move is made the old_position is made nil
     return if piece.old_position.nil?
+
+    return if invalid_take?(piece)
     
     # places nil where the piece used to be
     x, y = piece.old_position[0].to_i, piece.old_position[1].to_i
@@ -77,6 +79,30 @@ class Board
     x, y = piece.position[0].to_i, piece.position[1].to_i
     board[x][y] = piece
     
+  end
+
+  def invalid_take?(piece)
+    # gather the coordinates of the pieces take
+    x, y = piece.position[0].to_i, piece.position[1].to_i
+    old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
+
+    # pawn
+    if piece.symbol == "♟︎ " || piece.symbol == "♙ "
+      # ensures a pawn is making a taking move
+      if y != old_y
+        # verify if a piece is where a pawn is taking
+        return board[x][y].nil?
+      end
+
+      # ensure a pawn can't take from in front of it
+      if y == old_y
+        return !board[x][y].nil?
+      end
+
+    end
+
+    false
+
   end
 
 end

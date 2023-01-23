@@ -11,10 +11,22 @@ class Pawn < Piece
 
     def move_to(new_position)
         super(new_position)
-        # ISSUE: THE BOARD DOESN'T REMOVE THE OLD PAWN
         
-        x = self.position[0].to_i
-        old_x = self.old_position[0].to_i #if !self.old_position.nil?
+        x, y = self.position[0].to_i, self.position[1].to_i
+        old_x, old_y = self.old_position[0].to_i, self.old_position[1].to_i
+
+        # checks if a taking move is legal
+        if y != old_y
+            if self.color == "w" && (old_x - x) != 1
+                self.position = self.old_position
+                self.old_position = nil
+            end 
+            
+            if self.color == "b" && (x - old_x) != 1
+                self.position = self.old_position
+                self.old_position = nil
+            end    
+        end
 
         # resets the position if an illegal pawn move is made
         if self.color == "w"
