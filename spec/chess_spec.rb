@@ -20,10 +20,12 @@ describe "#move_to" do
         end
 
         it "doesn't allow the pawn to move forward two positions after it's first move" do
-            piece.move_to("6 0")
-            piece.move_to("4 0")
+            piece.move_to("5 0")
             chess.update_position(piece)
-            expect(chess.board[4][0]).to eq nil
+            piece.move_to("3 0")
+            chess.update_position(piece)
+            expect(chess.board[3][0]).to eq nil
+            chess.draw_board
         end
 
 
