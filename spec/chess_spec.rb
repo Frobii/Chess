@@ -25,10 +25,49 @@ describe "#move_to" do
             piece.move_to("3 0")
             chess.update_position(piece)
             expect(chess.board[3][0]).to eq nil
-            chess.draw_board
         end
 
 
+    end
+
+    let(:opponent_piece) { chess.board[1][1] }
+
+    context "when a pawn is taking" do
+        before do
+            opponent_piece.move_to("3 1")
+            chess.update_position(opponent_piece)
+            piece.move_to("4 0")
+            chess.update_position(piece)
+        end
+
+        it "allows a diagonal move" do
+            piece.move_to("3 1")
+            chess.update_position(piece)
+            expect(chess.board[3][1].symbol).to eq "♙ "
+            # puts "\n"
+            # chess.draw_board
+        end
+
+    end
+
+    let(:blocking_piece) { chess.board[1][0] }
+
+    context "when a pawn is in front of another pawn" do
+        before do 
+            blocking_piece.move_to("3 0")
+            chess.update_position(blocking_piece)
+            piece.move_to("4 0")
+            chess.update_position(piece)
+        end
+
+        it "cannot take the other pawn" do
+            piece.move_to("3 0")
+            chess.update_position(piece)
+            expect(chess.board[3][0].symbol).to eq "♟︎ "
+            puts "\n"
+            chess.draw_board
+        end
+        
     end
 
 end
