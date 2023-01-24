@@ -86,8 +86,16 @@ class Board
     x, y = piece.position[0].to_i, piece.position[1].to_i
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
 
+    # check if there's an attempt to take a piece of the same color
+    if !board[x][y].nil?
+      if board[x][y].color == piece.color
+        return true
+      end
+    end
+    
     # pawn
     if piece.symbol == "♟︎ " || piece.symbol == "♙ "
+
       # ensures a pawn is making a taking move
       if y != old_y
         # verify if a piece is where a pawn is taking
@@ -106,6 +114,3 @@ class Board
   end
 
 end
-
-a = Board.new
-a.draw_board
