@@ -74,6 +74,3 @@ describe "#move_to" do
     end
 
 end
-
-
-# WRITE TESTS FOR PAWN EDGE CASES
