@@ -71,4 +71,31 @@ describe "#move_to" do
         
     end
 
+    let(:friendly_block) { chess.board[6][1] }
+
+    context "a white pawn is behind another white pawn" do
+        before do
+            blocking_piece.move_to("3 0")
+            chess.update_position(blocking_piece)
+            friendly_block.move_to("4 1")
+            chess.update_position(friendly_block)
+            friendly_block.move_to("3 0")
+            chess.update_position(friendly_block)
+            piece.move_to("4 0")
+            chess.update_position(piece)
+        end
+
+        after do
+            puts "\n"
+            chess.draw_board
+        end
+
+        it "can't move" do
+            piece.move_to("3 0")
+            chess.update_position(piece)
+            expect(chess.board[4][0].symbol).to eq "♙ "
+        end
+
+    end
+
 end

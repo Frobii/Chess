@@ -26,7 +26,21 @@ describe "#move_to" do
         end
 
         it "doesn't allow it to move outside of knight travails" do
-            piece.move_to("5 3")
+            piece.move_to("4 1")
+            chess.update_position(piece)
+            expect(chess.board[5][2].symbol).to eq "♘ "
+        end
+
+        it "handles consecutive moves as expected" do
+            piece.move_to("4 4")
+            chess.update_position(piece)
+            piece.move_to("3 6")
+            chess.update_position(piece)
+            expect(chess.board[3][6].symbol).to eq "♘ "
+        end
+
+        it "doesn't allow it to move where another piece of the same color is" do
+            piece.move_to("6 4")
             chess.update_position(piece)
             expect(chess.board[5][2].symbol).to eq "♘ "
         end
