@@ -49,8 +49,6 @@ describe "#move_to" do
             piece.move_to("3 1")
             chess.update_position(piece)
             expect(chess.board[3][1].symbol).to eq "♙ "
-            puts "\n"
-            chess.draw_board
         end
 
     end
