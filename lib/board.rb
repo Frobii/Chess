@@ -14,24 +14,24 @@ class Board
   end
 
   def draw_board
-      board.each_with_index do |row, row_index|
-          row.each_with_index do |cell, col_index| 
-            if (row_index + col_index).even?
-              if cell.nil?
-                print "◾️"
-              else
-                print cell.symbol
-              end
+    board.each_with_index do |row, row_index|
+        row.each_with_index do |cell, col_index| 
+          if (row_index + col_index).even?
+            if cell.nil?
+              print "◾️"
             else
-              if cell.nil?
-                print "◽️"
-              else
-                print cell.symbol
-              end
+              print cell.symbol
+            end
+          else
+            if cell.nil?
+              print "◽️"
+            else
+              print cell.symbol
             end
           end
-          puts
-      end
+        end
+        puts
+    end
   end
 
   def setup_board

@@ -27,6 +27,11 @@ describe "#move_to" do
             expect(chess.board[3][0]).to eq nil
         end
 
+        it "doesn't allow the pawn to wrap around the board" do
+            piece.move_to("4 7")
+            chess.update_position(piece)
+            expect(chess.board[6][0].symbol).to eq "♙ "
+        end
 
     end
 
@@ -44,8 +49,8 @@ describe "#move_to" do
             piece.move_to("3 1")
             chess.update_position(piece)
             expect(chess.board[3][1].symbol).to eq "♙ "
-            # puts "\n"
-            # chess.draw_board
+            puts "\n"
+            chess.draw_board
         end
 
     end
@@ -64,10 +69,11 @@ describe "#move_to" do
             piece.move_to("3 0")
             chess.update_position(piece)
             expect(chess.board[3][0].symbol).to eq "♟︎ "
-            puts "\n"
-            chess.draw_board
         end
         
     end
 
 end
+
+
+# WRITE TESTS FOR PAWN EDGE CASES
