@@ -25,7 +25,7 @@ class Pawn < Piece
             if self.color == "b" && (x - old_x) != 1
                 self.position = self.old_position
                 self.old_position = nil
-            end    
+            end
         end
 
         # resets the position if an illegal pawn move is made

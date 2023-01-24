@@ -45,5 +45,15 @@ describe "#move_to" do
             expect(chess.board[5][2].symbol).to eq "♘ "
         end
 
+        let(:opponent) { chess.board[1][1] }
+
+        it "can take an opponents piece" do
+            opponent.move_to("3 1")
+            chess.update_position(opponent)
+            piece.move_to("3 1")
+            chess.update_position(piece)
+            expect(chess.board[3][1].symbol).to eq "♘ "
+        end
+
     end
 end
