@@ -37,6 +37,24 @@ describe "#move_to" do
             expect(chess.board[2][7]).to eq nil
         end
 
+        it "doesn't allow it to take pieces of the same suit" do
+            piece.move_to("7 1")
+            chess.update_position(piece)
+            expect(chess.board[7][0].symbol).to eq "♖ "
+        end
+
+        it "allows the rook to take pieces of the opposite suit" do
+            piece.move_to("1 0")
+            chess.update_position(piece)
+            expect(chess.board[1][0].symbol).to eq "♖ "
+        end
+
+        it "can't pass if another piece is in it's way" do
+            piece.move_to("0 0")
+            chess.update_position(piece)
+            expect(chess.board[7][0].symbol).to eq "♖ "
+        end
+
     end
     
 end
