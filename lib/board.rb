@@ -94,7 +94,7 @@ class Board
     end
 
     # everything that moves either on the x or y axis, not diagonally
-    if !(piece.symbol == "♞ ") || !(piece.symbol == "♘ ")
+    if !(piece.symbol == "♞ ") && !(piece.symbol == "♘ ")
 
       # ensure a target piece can't be taken if there is another piece in it's way
 
