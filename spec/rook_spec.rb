@@ -55,6 +55,19 @@ describe "#move_to" do
             expect(chess.board[7][0].symbol).to eq "♖ "
         end
 
+        let(:knight) { chess.board[7][1] }
+
+        it "works the other way round" do
+            piece.move_to("2 0")
+            chess.update_position(piece)
+            knight.move_to("5 0")
+            chess.update_position(knight)
+            # invalid move below
+            piece.move_to("7 0")
+            chess.update_position(piece)
+            expect(chess.board[2][0].symbol).to eq "♖ "
+        end
+
     end
     
 end
