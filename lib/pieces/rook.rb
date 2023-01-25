@@ -8,7 +8,7 @@ class Rook < Piece
         @symbol = "♜ " if color == "b"
         @symbol = "♖ " if color == "w"
     end
-
+  
     def move_to(new_position)
         super(new_position)
 

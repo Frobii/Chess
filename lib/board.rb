@@ -92,6 +92,33 @@ class Board
         return true
       end
     end
+
+    # everything that moves either on the x or y axis, not diagonally
+    if !(piece.symbol == "♞ ") || !(piece.symbol == "♘ ")
+
+      # ensure a target piece can't be taken if there is another piece in it's way
+
+      if old_x > x
+        # take and add one to exclude the piece and target from the equation
+        ((x + 1)..(old_x - 1)).each do |col|
+          # check each piece between the two to see if there is a blockage
+          return !board[col][y].nil? if !board[col][y].nil?
+
+        end
+
+      end
+
+      if old_x < x
+        # take and add one to exclude the piece and target from the equation
+        ((old_x + 1)..(x - 1)).each do |col|
+          # check each piece between the two to see if there is a blockage
+          return !board[col][y].nil? if !board[col][y].nil?
+
+        end
+
+      end
+
+    end
     
     # pawn
     if piece.symbol == "♟︎ " || piece.symbol == "♙ "
