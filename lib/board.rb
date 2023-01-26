@@ -94,7 +94,7 @@ class Board
     end
 
     # everything that moves either on the x or y axis, not diagonally
-    if !(piece.symbol == "♞ ") && !(piece.symbol == "♘ ")
+    if !(piece.is_a?(Knight)) && !(piece.is_a?(Bishop))
 
       # ensure a target piece can't be taken if there is another piece in it's way
 
@@ -132,8 +132,7 @@ class Board
 
     end
     
-    # pawn
-    if piece.symbol == "♟︎ " || piece.symbol == "♙ "
+    if piece.is_a?(Pawn)
 
       # ensures a pawn is making a taking move
       if y != old_y
