@@ -118,6 +118,18 @@ class Board
 
       end
 
+      if old_y > y
+        ((y + 1)..(old_y - 1)).each do |row|
+          return !board[x][row].nil? if !board[x][row].nil?
+        end
+      end
+
+      if old_y < y
+        ((old_y + 1)..(y - 1)).each do |row|
+          return !board[x][row].nil? if !board[x][row].nil?
+        end
+      end
+
     end
     
     # pawn
