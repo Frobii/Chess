@@ -77,6 +77,12 @@ describe "#move_to" do
             expect(chess.board[3][6].symbol).to eq "♗ "
         end
 
+        it "can't move around corners" do
+            piece.move_to("5 5")
+            chess.update_position(piece)
+            expect(chess.board[3][6].symbol).to eq "♗ "
+        end
+
 
     end
 end
