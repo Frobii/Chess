@@ -49,7 +49,7 @@ describe "#move_to" do
             expect(chess.board[1][0].symbol).to eq "♖ "
         end
 
-        it "can't pass if another piece is in it's way" do
+        it "can't pass if another piece is in it's way up the x axis" do
             piece.move_to("0 0")
             chess.update_position(piece)
             expect(chess.board[7][0].symbol).to eq "♖ "
@@ -57,7 +57,7 @@ describe "#move_to" do
 
         let(:knight) { chess.board[7][1] }
 
-        it "works the other way round" do
+        it "can't pass if another piece is in it's way down the x axis" do
             piece.move_to("2 0")
             chess.update_position(piece)
             knight.move_to("5 0")
@@ -66,6 +66,28 @@ describe "#move_to" do
             piece.move_to("7 0")
             chess.update_position(piece)
             expect(chess.board[2][0].symbol).to eq "♖ "
+        end
+
+        it "can't pass if another piece is in it's way up the y axis" do
+            piece.move_to("5 0")
+            chess.update_position(piece)
+            knight.move_to("5 2")
+            chess.update_position(knight)
+            piece.move_to("5 7")
+            chess.update_position(piece)
+            expect(chess.board[5][0].symbol).to eq "♖ "
+        end
+
+        it "can't pass if another piece is in it's way down the y axis" do
+            piece.move_to("5 0")
+            chess.update_position(piece)
+            piece.move_to("5 7")
+            chess.update_position(piece)
+            knight.move_to("5 2")
+            chess.update_position(knight)
+            piece.move_to("5 0")
+            chess.update_position(piece)
+            expect(chess.board[5][7].symbol).to eq "♖ "
         end
 
     end
