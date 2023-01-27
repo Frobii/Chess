@@ -93,7 +93,6 @@ class Board
       end
     end
 
-    
     # everything that moves either on the x or y axis, not diagonally
     if piece.is_a?(Rook) || piece.is_a?(Queen)
       
@@ -183,7 +182,7 @@ class Board
       end
       
     end
-    
+
     false
     
   end
