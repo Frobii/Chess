@@ -15,13 +15,13 @@ class Bishop < Piece
         x, y = self.position[0].to_i, self.position[1].to_i
         old_x, old_y = self.old_position[0].to_i, self.old_position[1].to_i
 
-        # reset the knights position if both of it's axis don't change
+        # reset the bishop's position if both of it's axis don't change
         if x == old_x || y == old_y
             self.position = self.old_position
             self.old_position = nil
         end
 
-        # reset the knights position if it tries to travel "around a corner"
+        # reset the bishop's position if it tries to travel "around a corner"
         # check every possible coordinate combo to verify diagonal movement
         if old_x > x
             if old_y > y
