@@ -61,11 +61,37 @@ describe "#move_to" do
             expect(chess.board[6][5].symbol).to eq "♔ "
         end
 
-        let (:enemy_pawn) {chess.board[1][5]}
+        let (:enemy_pawn) {chess.board[1][6]}
+        let (:enemy_bishop) {chess.board[0][5]}
 
-        it "can't move to a check position" do
-            enemy_pawn.move_to("3 5")
+        it "can't move to a check position from a diagonal taker to the right" do
+            enemy_pawn.move_to("2 6")
             chess.update_position(enemy_pawn)
+            enemy_bishop.move_to("2 7")
+            chess.update_position(enemy_bishop)
+            king.move_to("5 4")
+            chess.update_position(king)
+            expect(chess.board[6][4].symbol).to eq "♔ "
+        end
+
+        it "can move if an enemy piece is blocking the check piece" do
+            enemy_pawn.move_to("3 6")
+            chess.update_position(enemy_pawn)
+            enemy_bishop.move_to("2 7")
+            chess.update_position(enemy_bishop)
+            king.move_to("5 4")
+            chess.update_position(king)
+            expect(chess.board[5][4].symbol).to eq "♔ "
+        end
+
+        let (:left_enemy_pawn) {chess.board[1][3]}
+        let (:left_enemy_bishop) {chess.board[0][2]}
+
+        it "can't move to a checkposition from a diagonal taker to the left" do
+            left_enemy_pawn.move_to("2 3")
+            chess.update_position(left_enemy_pawn)
+            left_enemy_bishop.move_to("3 5")
+            chess.update_position(left_enemy_bishop)
             king.move_to("5 4")
             chess.update_position(king)
             king.move_to("4 4")
