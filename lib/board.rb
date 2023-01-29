@@ -70,6 +70,8 @@ class Board
     return if piece.old_position.nil?
 
     return if invalid_take?(piece)
+
+    return if check?(piece)
     
     # places nil where the piece used to be
     x, y = piece.old_position[0].to_i, piece.old_position[1].to_i
@@ -81,8 +83,49 @@ class Board
     
   end
 
+  def check?(piece)
+
+    x, y = piece.position[0].to_i, piece.position[1].to_i
+    
+    original_x, original_y = x, y
+
+    # I can use this array when refactoring
+    # directions = [[-1,-1], [-1,1], [1,-1], [1,1], [-1,0], [1,0], [0,-1], [0,1]]
+
+    diagonal_directions = [[-1,-1], [-1,1], [1,-1], [1,1]]
+
+    if piece.is_a?(King)
+
+      # check for diagonal takers
+      #diagonal_directions.each do |dx, dy|
+
+        while x.between?(0,7) && y.between?(0,7)
+          target = board[x][y]
+
+          case target
+          when !nil, !Bishop, !Queen
+            return false
+          when Bishop, Queen
+            return true if piece.color != target.color
+          when Pawn
+            return true if piece.color != target.color && (original_x - 1) == x && (original_y + 1 ) == y
+            return false if (original_x - 1) != x && (original_y + 1 ) != y
+          end
+
+          x -= 1
+          y += 1
+
+        end
+      #end
+      
+    end
+    
+    false
+
+  end
+
   def invalid_take?(piece)
-    # gather the coordinates of the pieces take
+    # gather the coordinates of the pieces target and old position
     x, y = piece.position[0].to_i, piece.position[1].to_i
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
 
