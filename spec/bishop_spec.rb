@@ -83,6 +83,17 @@ describe "#move_to" do
             expect(chess.board[3][6].symbol).to eq "♗ "
         end
 
+        let (:enemy_bishop) { chess.board[0][2] }
+        let (:enemy_pawn) {chess.board[1][3]}
+    
+        it "enemy bishops are able to move" do
+            enemy_pawn.move_to("2 3")
+            chess.update_position(enemy_pawn)
+            enemy_bishop.move_to("3 5")
+            chess.update_position(enemy_bishop)
+            expect(chess.board[3][5].symbol).to eq "♝ "
+        end
+
 
     end
 end
