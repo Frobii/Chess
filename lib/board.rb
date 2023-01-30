@@ -66,7 +66,7 @@ class Board
 
   def update_position(piece)
     
-    # if an invalid move is made the old_position is made nil
+    # if an invalid move is made the old_position should be nil
     return if piece.old_position.nil?
 
     return if invalid_take?(piece)
@@ -177,35 +177,35 @@ class Board
 
     if piece.is_a?(Bishop) || piece.is_a?(Queen)
 
+      # bottom right to top left
       if old_x > x && old_y > y
-        ((x + 1)..(old_x - 1)).each do |col|
-          ((y + 1)..(old_y - 1)).each do |row|
-            return !board[col][row].nil? if !board[col][row].nil?
-          end
+        ((old_x - 1).downto(x + 1)).each_with_index do |col, i|
+          row = old_y - i - 1
+          return !board[col][row].nil? if !board[col][row].nil?
         end
       end
-
+    
+      # top left to bottom right
       if old_x < x && old_y < y
-        ((old_x + 1)..(x - 1)).each do |col|
-          ((old_y + 1)..(y - 1)).each do |row|
-            return !board[col][row].nil? if !board[col][row].nil?
-          end
+        ((old_x + 1)..(x - 1)).each_with_index do |col, i|
+          row = old_y + i + 1
+          return !board[col][row].nil? if !board[col][row].nil?
         end
       end
 
+      # top right to bottom left
       if old_x < x && old_y > y
-        ((old_x + 1)..(x - 1)).each do |col|
-          ((y + 1)..(old_y - 1)).each do |row|
-            return !board[col][row].nil? if !board[col][row].nil?
-          end
+        ((old_x + 1)..(x - 1)).each_with_index do |col, i|
+          row = old_y - i - 1
+          return !board[col][row].nil? if !board[col][row].nil?
         end
       end
 
+      # bottom left to top right
       if old_x > x && old_y < y
-        ((x + 1)..(old_x - 1)).each do |col|
-          ((old_y + 1)..(y - 1)).each do |row|
-            return !board[col][row].nil? if !board[col][row].nil?
-          end
+        ((x + 1)..(old_x - 1)).each_with_index do |col, i|
+          row = old_y + i + 1
+          return !board[col][row].nil? if !board[col][row].nil?
         end
       end
       
