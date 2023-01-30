@@ -74,6 +74,17 @@ describe "#move_to" do
             chess.update_position(queen)
             expect(chess.board[4][6].symbol).to eq "♕ "
         end
+
+        let (:enemy_queen) {chess.board[0][4]}
+        let (:left_enemy_pawn) {chess.board[1][3]}
+
+        it "the enemy queen can move as expected" do
+            left_enemy_pawn.move_to("2 3")
+            chess.update_position(left_enemy_pawn)
+            enemy_queen.move_to("3 1")
+            chess.update_position(enemy_queen)
+            expect(chess.board[3][1].symbol).to eq "♛ "
+        end
         
     end
     
