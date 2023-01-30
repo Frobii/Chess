@@ -94,6 +94,5 @@ describe "#move_to" do
             expect(chess.board[3][5].symbol).to eq "♝ "
         end
 
-
     end
 end
