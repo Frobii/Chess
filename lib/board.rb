@@ -139,37 +139,37 @@ class Board
     # everything that moves either on the x or y axis, not diagonally
     if piece.is_a?(Rook) || piece.is_a?(Queen)
       
-      # ensure a target piece can't be taken if there is another piece in it's way
-      
-      if old_x > x
-        # take and add one to exclude the piece and target from the equation
-        ((x + 1)..(old_x - 1)).each do |col|
-          # check each piece between the two to see if there is a blockage
-          return !board[col][y].nil? if !board[col][y].nil?
+      # exclude the queens diagonal movments
+      if old_x == x || old_y == y
+        # ensure a target piece can't be taken if there is another piece in it's way
+        if old_x > x
+          # take and add one to exclude the piece and target from the equation
+          ((x + 1)..(old_x - 1)).each do |col|
+            # check each piece between the two to see if there is a blockage
+            return !board[col][y].nil? if !board[col][y].nil?
+          end
           
         end
         
-      end
-      
-      if old_x < x
-        # take and add one to exclude the piece and target from the equation
-        ((old_x + 1)..(x - 1)).each do |col|
-          # check each piece between the two to see if there is a blockage
-          return !board[col][y].nil? if !board[col][y].nil?
+        if old_x < x
+          # take and add one to exclude the piece and target from the equation
+          ((old_x + 1)..(x - 1)).each do |col|
+            # check each piece between the two to see if there is a blockage
+            return !board[col][y].nil? if !board[col][y].nil?
+          end
           
         end
         
-      end
-      
-      if old_y > y
-        ((y + 1)..(old_y - 1)).each do |row|
-          return !board[x][row].nil? if !board[x][row].nil?
+        if old_y > y
+          ((y + 1)..(old_y - 1)).each do |row|
+            return !board[x][row].nil? if !board[x][row].nil?
+          end
         end
-      end
-      
-      if old_y < y
-        ((old_y + 1)..(y - 1)).each do |row|
-          return !board[x][row].nil? if !board[x][row].nil?
+        
+        if old_y < y
+          ((old_y + 1)..(y - 1)).each do |row|
+            return !board[x][row].nil? if !board[x][row].nil?
+          end
         end
       end
       
