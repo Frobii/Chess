@@ -87,7 +87,7 @@ describe "#move_to" do
         let (:left_enemy_pawn) {chess.board[1][3]}
         let (:left_enemy_bishop) {chess.board[0][2]}
 
-        it "can't move to a checkposition from a diagonal taker to the left" do
+        it "can't move to a check position from a diagonal taker to the left" do
             left_enemy_pawn.move_to("2 3")
             chess.update_position(left_enemy_pawn)
             left_enemy_bishop.move_to("3 5")
@@ -97,6 +97,38 @@ describe "#move_to" do
             king.move_to("4 4")
             chess.update_position(king)
             expect(chess.board[5][4].symbol).to eq "♔ "
+        end
+
+        let (:enemy_queen) {chess.board[0][4]}
+
+        it "can't move to a check position from a vertical taker" do
+            left_enemy_pawn.move_to("2 3")
+            chess.update_position(left_enemy_pawn)
+            enemy_queen.move_to("2 2")
+            chess.update_position(enemy_queen)
+            enemy_queen.move_to("3 3")
+            chess.update_position(enemy_queen)
+            king.move_to("5 3")
+            chess.update_position(king)
+            expect(chess.board[6][4].symbol).to eq "♔ "
+        end
+
+        it "can't move to a check position from a horizontal taker" do
+            left_enemy_pawn.move_to("2 3")
+            chess.update_position(left_enemy_pawn)
+            enemy_queen.move_to("3 1")
+            chess.update_position(enemy_queen)
+            king.move_to("5 4")
+            chess.update_position(king)
+            king.move_to("4 4")
+            chess.update_position(king)
+            king.move_to("3 3")
+            chess.update_position(king)
+            expect(chess.board[4][4].symbol).to eq "♔ "
+        end
+
+        it "can't move to a check position from a knight taker" do
+
         end
 
     end
