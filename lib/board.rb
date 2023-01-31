@@ -4,8 +4,10 @@ require_relative "./pieces/king.rb"
 require_relative "./pieces/rook.rb"
 require_relative "./pieces/knight.rb"
 require_relative "./pieces/bishop.rb"
+require_relative "./check.rb"
 
 class Board
+  include Check
   attr_accessor :board
 
   def initialize
@@ -82,48 +84,7 @@ class Board
     board[x][y] = piece
     
   end
-
-  def check?(piece)
-
-    x, y = piece.position[0].to_i, piece.position[1].to_i
-    
-    original_x, original_y = x, y
-
-    # I can use this array when refactoring
-    # directions = [[-1,-1], [-1,1], [1,-1], [1,1], [-1,0], [1,0], [0,-1], [0,1]]
-
-    diagonal_directions = [[-1,-1], [-1,1], [1,-1], [1,1]]
-
-    if piece.is_a?(King)
-
-      # check for diagonal takers
-      #diagonal_directions.each do |dx, dy|
-
-        while x.between?(0,7) && y.between?(0,7)
-          target = board[x][y]
-
-          case target
-          when !nil, !Bishop, !Queen
-            return false
-          when Bishop, Queen
-            return true if piece.color != target.color
-          when Pawn
-            return true if piece.color != target.color && (original_x - 1) == x && (original_y + 1 ) == y
-            return false if (original_x - 1) != x && (original_y + 1 ) != y
-          end
-
-          x -= 1
-          y += 1
-
-        end
-      #end
-      
-    end
-    
-    false
-
-  end
-
+  
   def invalid_take?(piece)
     # gather the coordinates of the pieces target and old position
     x, y = piece.position[0].to_i, piece.position[1].to_i
