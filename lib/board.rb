@@ -84,7 +84,7 @@ class Board
     board[x][y] = piece
     
   end
-  
+
   def invalid_take?(piece)
     # gather the coordinates of the pieces target and old position
     x, y = piece.position[0].to_i, piece.position[1].to_i

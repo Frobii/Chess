@@ -1,8 +1,11 @@
 module Check
-    def check?(piece)
-        x, y = piece.position[0].to_i, piece.position[1].to_i
+    def check?(piece, x = 0, y = 0, suit = nil)
+        # allow nil to be passed for check_mate validation
+        x, y = piece.position[0].to_i, piece.position[1].to_i if !piece.nil?
 
-        return false unless piece.is_a?(King)
+        suit = piece.color if !piece.nil?
+
+        return false unless piece.is_a?(King) || piece.nil?
 
         horizontal_directions = [[-1,0], [1,0], [0,-1], [0,1]]
         diagonal_directions = [[-1,-1], [-1,1], [1,-1], [1,1]]
@@ -13,13 +16,13 @@ module Check
             i, j = x, y
 
             loop do
-            i, j = i + dx, j + dy
-            break if i < 0 || i > 7 || j < 0 || j > 7
+                i, j = i + dx, j + dy
+                break if i < 0 || i > 7 || j < 0 || j > 7
 
-            target = board[i][j]
-            return true if target.is_a?(Bishop) && target.color != piece.color
-            return true if target.is_a?(Queen) && target.color != piece.color
-            break if target != nil
+                target = board[i][j]
+                return true if target.is_a?(Bishop) && target.color != suit
+                return true if target.is_a?(Queen) && target.color != suit
+                break if target != nil
 
             end
 
@@ -29,27 +32,27 @@ module Check
             i, j = x, y
 
             loop do
-            i, j = i + dx, j + dy
-            break if i < 0 || i > 7 || j < 0 || j > 7
+                i, j = i + dx, j + dy
+                break if i < 0 || i > 7 || j < 0 || j > 7
 
-            target = board[i][j]
+                target = board[i][j]
 
-            return true if target.is_a?(Queen) && target.color != piece.color
-            return true if target.is_a?(Rook) && target.color != piece.color
-            break if target != nil
+                return true if target.is_a?(Queen) && target.color != suit
+                return true if target.is_a?(Rook) && target.color != suit
+                break if target != nil
 
             end
 
         end
 
-        pawn_directions = [[piece.color == 'w' ? -1 : 1, -1], [piece.color == 'b' ? -1 : 1, 1]]
+        pawn_directions = [[suit == 'w' ? -1 : 1, -1], [suit == 'b' ? -1 : 1, 1]]
 
         pawn_directions.each do |dx, dy|
             i, j = x + dx, y + dy
             next if i < 0 || i > 7 || j < 0 || j > 7
 
             target = board[i][j]
-            return true if target.is_a?(Pawn) && target.color != piece.color
+            return true if target.is_a?(Pawn) && target.color != suit
         end
 
         knight_directions = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]]
@@ -59,10 +62,10 @@ module Check
             next if i < 0 || i > 7 || j < 0 || j > 7
 
             target = board[i][j]
-            return true if target.is_a?(Knight) && target.color != piece.color
+            return true if target.is_a?(Knight) && target.color != suit
         end
 
-        opposing_color = piece.color == "w" ? "b" : "w"
+        opposing_color = suit == "w" ? "b" : "w"
         opposing_king = board.flatten.select { |p| p.is_a?(King) && p.color == opposing_color }.first
         return true if directions.any? { |dx, dy| opposing_king.position == [x + dx, y + dy] }
         
@@ -71,6 +74,29 @@ module Check
     end
 
     def check_mate?(king)
-    
+        return false unless check?(king)
+
+        x, y = king.position[0].to_i, king.position[1].to_i
+
+        king_directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+
+        king_directions.each do |dx, dy|
+            i, j = x + dx, y + dy
+            next if i < 0 || i > 7 || j < 0 || j > 7
+            
+            # remove the king from the board so that it doesn't block a taker from itself during the check? verification
+            board[x][y] = nil
+
+            in_check = check?(nil, i, j, king.color)
+
+            board[x][y] = king
+
+            return false if !in_check
+            
+        end
+
+        true
+
     end
+
 end
