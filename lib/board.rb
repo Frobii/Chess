@@ -95,16 +95,20 @@ class Board
     x, y = piece.position[0].to_i, piece.position[1].to_i
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
 
+    # save the state of the potential position in case a piece is there
+    dont_update = board[x][y]
+
     # temporarily update the pieces position
     board[x][y] = piece
-    board[old_x][old_y] = nil
+    board[old_x][old_y] = dont_update 
+
 
     # see if the move put the king in check
     danger = check?(king)
 
     # reset the pieces positon
     board[old_x][old_y] = piece
-    board[x][y] = nil
+    board[x][y] = dont_update
 
     return danger
   end
