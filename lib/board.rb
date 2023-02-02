@@ -71,9 +71,12 @@ class Board
     # if an invalid move is made the old_position should be nil
     return if piece.old_position.nil?
 
+    return if king_in_danger?(piece)
+    
     return if invalid_take?(piece)
-
+    
     return if check?(piece)
+    
     
     # places nil where the piece used to be
     x, y = piece.old_position[0].to_i, piece.old_position[1].to_i
@@ -83,6 +86,27 @@ class Board
     x, y = piece.position[0].to_i, piece.position[1].to_i
     board[x][y] = piece
     
+  end
+
+  #  HAVING SOME MAJOR ISSUES WITH THIS METHOD
+  def king_in_danger?(piece)
+    king = board.flatten.select { |p| p.is_a?(King) && p.color == piece.color }.first
+
+    x, y = piece.position[0].to_i, piece.position[1].to_i
+    old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
+
+    # temporarily update the pieces position
+    board[x][y] = piece
+    board[old_x][old_y] = nil
+
+    # see if the move put the king in check
+    danger = check?(king)
+
+    # reset the pieces positon
+    board[old_x][old_y] = piece
+    board[x][y] = nil
+
+    return danger
   end
 
   def invalid_take?(piece)

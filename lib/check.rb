@@ -1,11 +1,11 @@
 module Check
     def check?(piece, x = 0, y = 0, suit = nil)
+        return false unless piece.is_a?(King) || piece.nil?
+
         # allow nil to be passed for check_mate validation
         x, y = piece.position[0].to_i, piece.position[1].to_i if !piece.nil?
 
         suit = piece.color if !piece.nil?
-
-        return false unless piece.is_a?(King) || piece.nil?
 
         horizontal_directions = [[-1,0], [1,0], [0,-1], [0,1]]
         diagonal_directions = [[-1,-1], [-1,1], [1,-1], [1,1]]
@@ -20,6 +20,7 @@ module Check
                 break if i < 0 || i > 7 || j < 0 || j > 7
 
                 target = board[i][j]
+
                 return true if target.is_a?(Bishop) && target.color != suit
                 return true if target.is_a?(Queen) && target.color != suit
                 break if target != nil
@@ -94,6 +95,8 @@ module Check
             return false if !in_check
             
         end
+
+        
 
         true
 

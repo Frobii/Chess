@@ -3,7 +3,11 @@ require_relative "../lib/board.rb"
 describe "#check_mate?" do
     subject(:chess) { Board.new }
   
+    # white pieces
     let(:king) { chess.board[7][4] }
+    let(:bishop) { chess.board[6][6] }
+
+    # black pieces
     let(:l_rook) { chess.board[0][0] }
     let(:l_knight) { chess.board[0][1] }
     let(:l_bishop) { chess.board[0][2] }
@@ -24,6 +28,7 @@ describe "#check_mate?" do
             chess.board[3][3] = Pawn.new("b", [4,3])
             chess.board[4][4] = Pawn.new("w", [5,4])
             chess.board[7][4] = King.new("w", [7,4])
+            chess.board[6][6] = Bishop.new("w", [6,6])
         end
 
         after do
@@ -32,6 +37,7 @@ describe "#check_mate?" do
         end
 
         it "returns true when a king is pinned by rooks" do
+            chess.board[6][6] = nil
             l_rook.move_to('6 0')
             chess.update_position(l_rook)
             r_rook.move_to('7 7')
@@ -60,6 +66,14 @@ describe "#check_mate?" do
             chess.update_position(black_queen)
             black_queen.move_to('6 4')
             chess.update_position(black_queen)
+            expect(chess.check_mate?(king)).to be(false)
+        end
+
+        it "returns false if a friendly piece can take to get out of check" do
+            l_rook.move_to('6 0')
+            chess.update_position(l_rook)
+            r_rook.move_to('7 7')
+            chess.update_position(r_rook)
             expect(chess.check_mate?(king)).to be(false)
         end
 
