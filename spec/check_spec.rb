@@ -37,7 +37,7 @@ describe "#check?" do
 
         let(:bishop) { chess.board[7][5] }
 
-        it "returns true when a king is pinned by rooks" do
+        it "doesn't allow the piece to move" do
             l_rook.move_to('6 0')
             chess.update_position(l_rook)
             r_rook.move_to('7 7')
@@ -47,6 +47,52 @@ describe "#check?" do
             expect(chess.check?(king)).to be(false)
         end
 
+    end
+
+    context "when pawns are attacking the king" do
+
+        before do
+            # remove the pieces for ease of testing
+            chess.board[7].map! {|piece| piece = nil}
+            chess.board[6].map! {|pawn| pawn = nil}
+            chess.board[4][4] = Pawn.new("w", [5,4])
+            chess.board[7][4] = King.new("w", [7,4])
+
+        end
+
+        after do
+            puts "\n"
+            chess.draw_board
+        end
+
+        let (:l_pawn) {chess.board[1][3]}
+
+        it "returns check from the left side" do
+            l_pawn.move_to('3 3')
+            chess.update_position(l_pawn)
+            l_pawn.move_to('4 3')
+            chess.update_position(l_pawn)
+            l_pawn.move_to('5 3')
+            chess.update_position(l_pawn)
+            l_pawn.move_to('6 3')
+            chess.update_position(l_pawn)
+            expect(chess.check?(king)).to be(true)
+        end
+
+        let (:r_pawn) {chess.board[1][5]}
+
+        it "returns check from the right side" do
+            r_pawn.move_to('3 5')
+            chess.update_position(r_pawn)
+            r_pawn.move_to('4 5')
+            chess.update_position(r_pawn)
+            r_pawn.move_to('5 5')
+            chess.update_position(r_pawn)
+            r_pawn.move_to('6 5')
+            chess.update_position(r_pawn)
+            expect(chess.check?(king)).to be(true)
+        end
+        
     end
 
 end
