@@ -77,6 +77,26 @@ describe "#check_mate?" do
             expect(chess.check_mate?(king)).to be(false)
         end
 
+        it "doesn't allow a defender to do anything but defend a check" do
+            l_rook.move_to('6 0')
+            chess.update_position(l_rook)
+            r_rook.move_to('7 7')
+            chess.update_position(r_rook)
+            bishop.move_to('5 5')
+            chess.update_position(bishop)
+            expect(chess.board[6][6].symbol).to eq "♗ "
+        end
+
+        it "does allow a defender to take the attacking piece" do
+            l_rook.move_to('6 0')
+            chess.update_position(l_rook)
+            r_rook.move_to('7 7')
+            chess.update_position(r_rook)
+            bishop.move_to('7 7')
+            chess.update_position(bishop)
+            expect(chess.board[7][7].symbol).to eq "♗ "
+        end
+
     end
 
 end
