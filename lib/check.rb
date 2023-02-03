@@ -46,7 +46,8 @@ module Check_Rules
 
         end
 
-        pawn_directions = [[suit == 'w' ? -1 : 1, -1], [suit == 'b' ? -1 : 1, 1]]
+        pawn_directions = [[-1, -1], [-1 , 1]] if suit == 'w'
+        pawn_directions = [[1, -1], [1 , 1]]  if suit == 'b'
 
         pawn_directions.each do |dx, dy|
             i, j = x + dx, y + dy
