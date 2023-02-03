@@ -17,7 +17,7 @@ describe "#check?" do
     let(:r_rook) { chess.board[0][7] }
     
 
-    context "when a piece's move exposes the king to check" do
+    context "when a piece's move exposes it's king to check" do
 
         before do
             # remove the pieces for ease of testing
@@ -55,9 +55,7 @@ describe "#check?" do
             # remove the pieces for ease of testing
             chess.board[7].map! {|piece| piece = nil}
             chess.board[6].map! {|pawn| pawn = nil}
-            chess.board[4][4] = Pawn.new("w", [5,4])
             chess.board[7][4] = King.new("w", [7,4])
-
         end
 
         after do
@@ -92,7 +90,21 @@ describe "#check?" do
             chess.update_position(r_pawn)
             expect(chess.check?(king)).to be(true)
         end
+
+        let (:m_pawn) {chess.board[1][4]}
         
+        it "doesn't return check from the middle" do
+            m_pawn.move_to('3 4')
+            chess.update_position(m_pawn)
+            m_pawn.move_to('4 4')
+            chess.update_position(m_pawn)
+            m_pawn.move_to('5 4')
+            chess.update_position(m_pawn)
+            m_pawn.move_to('6 4')
+            chess.update_position(m_pawn)
+            expect(chess.check?(king)).to be(false)
+        end
+
     end
 
 end
