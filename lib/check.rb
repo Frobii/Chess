@@ -1,4 +1,4 @@
-module Check
+module Check_Rules
     def check?(piece, x = 0, y = 0, suit = nil)
         return false unless piece.is_a?(King) || piece.nil?
 
@@ -95,8 +95,6 @@ module Check
             return false if !in_check
             
         end
-
-        
 
         true
 

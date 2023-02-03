@@ -7,7 +7,7 @@ require_relative "./pieces/bishop.rb"
 require_relative "./check.rb"
 
 class Board
-  include Check
+  include Check_Rules
   attr_accessor :board
 
   def initialize
