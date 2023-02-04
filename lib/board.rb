@@ -16,23 +16,30 @@ class Board
   end
 
   def draw_board
+    # add column numbers
+    print "  "
+    (0..7).each { |i| print "#{i} " }
+    puts
+  
     board.each_with_index do |row, row_index|
-        row.each_with_index do |cell, col_index| 
-          if (row_index + col_index).even?
-            if cell.nil?
-              print "◾️"
-            else
-              print cell.symbol
-            end
+      # add row number
+      print "#{row_index} "
+      row.each_with_index do |cell, col_index| 
+        if (row_index + col_index).even?
+          if cell.nil?
+            print "◾️"
           else
-            if cell.nil?
-              print "◽️"
-            else
-              print cell.symbol
-            end
+            print cell.symbol
+          end
+        else
+          if cell.nil?
+            print "◽️"
+          else
+            print cell.symbol
           end
         end
-        puts
+      end
+      puts
     end
   end
 
