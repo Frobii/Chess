@@ -27,13 +27,13 @@ class Board
       row.each_with_index do |cell, col_index| 
         if (row_index + col_index).even?
           if cell.nil?
-            print "◾️"
+            print "◽️"
           else
             print cell.symbol
           end
         else
           if cell.nil?
-            print "◽️"
+            print "◾️"
           else
             print cell.symbol
           end
@@ -52,11 +52,11 @@ class Board
     end
 
     # setup the queens
-    board[0][4] = Queen.new("b", [0,4])
+    board[0][3] = Queen.new("b", [0,3])
     board[7][3] = Queen.new("w", [7,3])
 
     # setup the kings
-    board[0][3] = King.new("b", [0,3])
+    board[0][4] = King.new("b", [0,4])
     board[7][4] = King.new("w", [7,4])
 
     # setup the rooks
@@ -83,7 +83,8 @@ class Board
     return if invalid_take?(piece)
     
     return if check?(piece)
-    
+
+    #return if castled?(piece)
     
     # places nil where the piece used to be
     x, y = piece.old_position[0].to_i, piece.old_position[1].to_i
@@ -92,7 +93,22 @@ class Board
     # places the piece where the user decided to make a move
     x, y = piece.position[0].to_i, piece.position[1].to_i
     board[x][y] = piece
+
+    piece.first_move = false if piece.is_a?(Rook) || piece.is_a?(King)
     
+  end
+
+  def castled?(piece)
+    return false unless piece.is_a?(King)
+    
+    rooks = board.flatten.select { |p| p.is_a?(Rook) && p.color == piece.color }
+    p rooks[0]
+    p rooks[1]
+
+
+    #return false if piece
+    false
+
   end
 
   #  HAVING SOME MAJOR ISSUES WITH THIS METHOD
@@ -108,7 +124,6 @@ class Board
     # temporarily update the pieces position
     board[x][y] = piece
     board[old_x][old_y] = dont_update 
-
 
     # see if the move put the king in check
     danger = check?(king)

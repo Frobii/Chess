@@ -75,15 +75,15 @@ describe "#move_to" do
             expect(chess.board[4][6].symbol).to eq "♕ "
         end
 
-        let (:enemy_queen) {chess.board[0][4]}
-        let (:left_enemy_pawn) {chess.board[1][3]}
+        let (:enemy_queen) {chess.board[0][3]}
+        let (:left_enemy_pawn) {chess.board[1][2]}
 
         it "the enemy queen can move as expected" do
-            left_enemy_pawn.move_to("2 3")
+            left_enemy_pawn.move_to("2 2")
             chess.update_position(left_enemy_pawn)
-            enemy_queen.move_to("3 1")
+            enemy_queen.move_to("3 0")
             chess.update_position(enemy_queen)
-            expect(chess.board[3][1].symbol).to eq "♛ "
+            expect(chess.board[3][0].symbol).to eq "♛ "
         end
         
     end

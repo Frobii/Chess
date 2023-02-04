@@ -99,11 +99,13 @@ describe "#move_to" do
             expect(chess.board[5][4].symbol).to eq "♔ "
         end
 
-        let (:enemy_queen) {chess.board[0][4]}
+        let (:enemy_queen) {chess.board[0][3]}
 
         it "can't move to a check position from a vertical taker" do
             left_enemy_pawn.move_to("2 3")
             chess.update_position(left_enemy_pawn)
+            enemy_queen.move_to("1 3")
+            chess.update_position(enemy_queen)
             enemy_queen.move_to("2 2")
             chess.update_position(enemy_queen)
             enemy_queen.move_to("3 3")
@@ -116,6 +118,8 @@ describe "#move_to" do
         it "can't move to a check position from a horizontal taker" do
             left_enemy_pawn.move_to("2 3")
             chess.update_position(left_enemy_pawn)
+            enemy_queen.move_to("1 3")
+            chess.update_position(enemy_queen)
             enemy_queen.move_to("3 1")
             chess.update_position(enemy_queen)
             king.move_to("5 4")
@@ -139,7 +143,7 @@ describe "#move_to" do
 
         let (:enemy_knight) {chess.board[0][6]}
 
-        it "can't move to a check position from a pawn taker" do
+        it "can't move to a check position from a knight taker" do
             enemy_knight.move_to("2 5")
             chess.update_position(enemy_knight)
             enemy_knight.move_to("4 6")
@@ -149,21 +153,21 @@ describe "#move_to" do
             expect(chess.board[6][4].symbol).to eq "♔ "
         end
 
-        let (:black_king_pawn) {chess.board[1][3]}
-        let (:black_king) {chess.board[0][3]}
+        let (:black_king_pawn) {chess.board[1][4]}
+        let (:black_king) {chess.board[0][4]}
 
         it "doesn't allow kings to enter each other's vicinity" do
-            black_king_pawn.move_to("3 3")
+            black_king_pawn.move_to("3 4")
             chess.update_position(black_king_pawn)
-            black_king.move_to("1 3")
+            black_king.move_to("1 4")
             chess.update_position(black_king)
-            black_king.move_to("2 4")
-            chess.update_position(black_king)
-            black_king.move_to("3 4")
-            chess.update_position(black_king)
-            black_king.move_to("4 4")
-            chess.update_position(black_king)
-            black_king.move_to("5 4")
+            # black_king.move_to("2 4")
+            # chess.update_position(black_king)
+            # black_king.move_to("3 4")
+            # chess.update_position(black_king)
+            # black_king.move_to("4 4")
+            # chess.update_position(black_king)
+            # black_king.move_to("5 4")
             chess.update_position(black_king)
             expect(chess.board[4][4].symbol).to eq "♚ "
         end

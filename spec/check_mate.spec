@@ -11,8 +11,8 @@ describe "#check_mate?" do
     let(:l_rook) { chess.board[0][0] }
     let(:l_knight) { chess.board[0][1] }
     let(:l_bishop) { chess.board[0][2] }
-    let(:black_queen) { chess.board[0][4] }
-    let(:black_king) { chess.board[0][3] }
+    let(:black_queen) { chess.board[0][3] }
+    let(:black_king) { chess.board[0][4] }
     let(:r_bishop) { chess.board[0][5] }
     let(:r_knight) { chess.board[0][6] }
     let(:r_rook) { chess.board[0][7] }
@@ -54,7 +54,9 @@ describe "#check_mate?" do
         it "returns true when a king is pinned by a queen" do
             l_rook.move_to('6 0')
             chess.update_position(l_rook)
-            black_queen.move_to('3 7')
+            black_queen.move_to('1 3')
+            chess.update_position(black_queen)
+            black_queen.move_to('4 6')
             chess.update_position(black_queen)
             black_queen.move_to('6 4')
             chess.update_position(black_queen)
@@ -62,7 +64,9 @@ describe "#check_mate?" do
         end
 
         it "returns false when a king can take an attacking queen" do
-            black_queen.move_to('3 7')
+            black_queen.move_to('1 3')
+            chess.update_position(black_queen)
+            black_queen.move_to('4 6')
             chess.update_position(black_queen)
             black_queen.move_to('6 4')
             chess.update_position(black_queen)
