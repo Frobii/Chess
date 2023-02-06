@@ -112,15 +112,19 @@ class Board
     # exit the execution if the relevant rook has moved
     if y == 2 
      return true if l_rook.first_move == false
+
      # while the y value is checked, update the relevant rooks position/old position
      l_rook.old_position = l_rook.position
      l_rook.position = [7,3] if piece.color == "w"
      l_rook.position = [0,3] if piece.color == "b"
+
     elsif y == 6
      return true if r_rook.first_move == false
+
      r_rook.old_position = r_rook.position
      r_rook.position = [7,5] if piece.color == "w"
      r_rook.position = [0,5] if piece.color == "b"
+     
     end
 
     # update the kings position before reassigning x and y values for the rook
