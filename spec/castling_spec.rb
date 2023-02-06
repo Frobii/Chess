@@ -25,7 +25,7 @@ describe "#castled?" do
             chess.board[7][4] = King.new("w", [7,4])
             chess.board[7][0] = Rook.new("w", [7,0])
             chess.board[7][7] = Rook.new("w", [7,7])
-            chess.board[0][3] = King.new("b", [0,4])
+            chess.board[0][4] = King.new("b", [0,4])
             chess.board[0][0] = Rook.new("b", [0,0])
             chess.board[0][7] = Rook.new("b", [0,7])
         end
