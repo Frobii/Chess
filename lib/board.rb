@@ -75,7 +75,7 @@ class Board
 
   def update_position(piece)
     
-    # if an invalid move is made the old_position should be nil
+    # return if an invalid move is made, the old_position should be nil
     return if piece.old_position.nil?
 
     return if king_in_danger?(piece)
@@ -84,6 +84,7 @@ class Board
     
     return if check?(piece)
 
+    # the castled method handles the movement in this scenario
     #return if castled?(piece)
     
     # places nil where the piece used to be
@@ -118,7 +119,7 @@ class Board
     x, y = piece.position[0].to_i, piece.position[1].to_i
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
 
-    # save the state of the potential position in case a piece is there
+    # save the state of the potential position
     dont_update = board[x][y]
 
     # temporarily update the pieces position
@@ -127,7 +128,7 @@ class Board
 
     # see if the move put the king in check
     danger = check?(king)
-
+    
     # reset the pieces positon
     board[old_x][old_y] = piece
     board[x][y] = dont_update
