@@ -84,8 +84,8 @@ class Board
     
     return if check?(piece)
 
-    # the castled method handles the movement in this scenario
-    #return if castled?(piece)
+    # a castled method handles it's own movement
+    return if castled?(piece)
     
     # places nil where the piece used to be
     x, y = piece.old_position[0].to_i, piece.old_position[1].to_i
@@ -100,15 +100,55 @@ class Board
   end
 
   def castled?(piece)
-    return false unless piece.is_a?(King)
+    x, y = piece.position[0].to_i, piece.position[1].to_i
+    old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
     
     rooks = board.flatten.select { |p| p.is_a?(Rook) && p.color == piece.color }
-    p rooks[0]
-    p rooks[1]
+    l_rook = rooks[0]
+    r_rook = rooks[1]
 
+    return false unless piece.is_a?(King)
 
-    #return false if piece
-    false
+    # exit the execution if the relevant rook has moved
+    if y == 2 
+     return true if l_rook.first_move == false
+     # while the y value is checked, update the relevant rooks position/old position
+     l_rook.old_position = l_rook.position
+     l_rook.position = [7,3] if piece.color == "w"
+     l_rook.position = [0,3] if piece.color == "b"
+    elsif y == 6
+     return true if r_rook.first_move == false
+     r_rook.old_position = r_rook.position
+     r_rook.position = [7,5] if piece.color == "w"
+     r_rook.position = [0,5] if piece.color == "b"
+    end
+
+    # update the kings position before reassigning x and y values for the rook
+    board[x][y] = piece
+    board[old_x][old_y] = nil
+    piece.first_move = false
+
+    if y == 2
+      x, y = l_rook.position[0].to_i, l_rook.position[1].to_i
+      old_x, old_y = l_rook.old_position[0].to_i, l_rook.old_position[1].to_i
+
+      board[x][y] = rooks[0]
+      board[old_x][old_y] = nil
+
+      l_rook.first_move = false
+
+    elsif y == 6
+      x, y = r_rook.position[0].to_i, r_rook.position[1].to_i
+      old_x, old_y = r_rook.old_position[0].to_i, r_rook.old_position[1].to_i
+
+      board[x][y] = r_rook
+      board[old_x][old_y] = nil
+
+      r_rook.first_move = false
+
+    end
+
+    true
 
   end
 

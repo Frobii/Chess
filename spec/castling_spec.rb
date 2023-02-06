@@ -35,10 +35,32 @@ describe "#castled?" do
             chess.draw_board
         end
 
-        it "allows a legal move" do
+        it "allows a legal move from the white king to y2" do
+            w_king.move_to('7 2')
+            chess.update_position(w_king)
+            expect(chess.board[7][2].symbol).to eq "♔ "
+            expect(chess.board[7][3].symbol).to eq "♖ "
+        end
 
+        it "allows a legal move from the white king to y2" do
+            w_king.move_to('7 6')
+            chess.update_position(w_king)
+            expect(chess.board[7][6].symbol).to eq "♔ "
+            expect(chess.board[7][5].symbol).to eq "♖ "
+        end
 
-            
+        it "allows a legal move from the black king to y6" do
+            b_king.move_to('0 2')
+            chess.update_position(b_king)
+            expect(chess.board[0][2].symbol).to eq "♚ "
+            expect(chess.board[0][3].symbol).to eq "♜ "
+        end
+
+        it "allows a legal move from the black king to y2" do
+            b_king.move_to('0 6')
+            chess.update_position(b_king)
+            expect(chess.board[0][6].symbol).to eq "♚ "
+            expect(chess.board[0][5].symbol).to eq "♜ "
         end
         
     end
