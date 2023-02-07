@@ -109,6 +109,14 @@ class Board
 
     return false unless piece.is_a?(King)
 
+    # set the pos to old_pos before check? due to the way check handles positions
+    save_pos = piece.position
+    piece.position = piece.old_position
+
+    return true if check?(piece)
+
+    piece.position = save_pos
+
     # exit the execution if the relevant rook has moved
     if y == 2 
      return true if l_rook.first_move == false
