@@ -92,6 +92,56 @@ describe "#castled?" do
             chess.update_position(w_king)
             expect(chess.board[7][4].symbol).to eq "♔ "
         end
+
+        it "doesn't allow it if the first pos in the king's right path is in check" do
+            b_right.move_to('1 7')
+            chess.update_position(b_right)
+            b_right.move_to('1 5')
+            chess.update_position(b_right)
+            w_king.move_to('7 6')
+            chess.update_position(w_king)
+            expect(chess.board[7][4].symbol).to eq "♔ "
+        end
+
+        it "doesn't allow it if the second pos in the king's right path is in check" do
+            b_right.move_to('1 7')
+            chess.update_position(b_right)
+            b_right.move_to('1 6')
+            chess.update_position(b_right)
+            w_king.move_to('7 6')
+            chess.update_position(w_king)
+            expect(chess.board[7][4].symbol).to eq "♔ "
+        end
+
+        it "doesn't allow it if the first pos in the king's left path is in check" do
+            b_right.move_to('1 7')
+            chess.update_position(b_right)
+            b_right.move_to('1 3')
+            chess.update_position(b_right)
+            w_king.move_to('7 2')
+            chess.update_position(w_king)
+            expect(chess.board[7][4].symbol).to eq "♔ "
+        end
+
+        it "doesn't allow it if the second pos in the king's left path is in check" do
+            b_right.move_to('1 7')
+            chess.update_position(b_right)
+            b_right.move_to('1 2')
+            chess.update_position(b_right)
+            w_king.move_to('7 2')
+            chess.update_position(w_king)
+            expect(chess.board[7][4].symbol).to eq "♔ "
+        end
+
+        it "doesn't allow it if the second pos in the black king's left path is in check" do
+            w_right.move_to('6 7')
+            chess.update_position(w_right)
+            w_right.move_to('6 2')
+            chess.update_position(w_right)
+            b_king.move_to('0 2')
+            chess.update_position(b_king)
+            expect(chess.board[0][4].symbol).to eq "♚ "
+        end
         
     end
 
