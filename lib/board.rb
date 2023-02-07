@@ -109,6 +109,9 @@ class Board
 
     return false unless piece.is_a?(King)
 
+    # return when the king is making a regular move 
+    return false if y != 2 && y != 6
+
     # set the pos to old_pos before check? due to the way check handles positions
     save_pos = piece.position
     piece.position = piece.old_position
