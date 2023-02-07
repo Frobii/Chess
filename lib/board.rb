@@ -117,9 +117,12 @@ class Board
     piece.position = piece.old_position
 
     return true if check?(piece)
-
+    
+    # revert the king's position back
     piece.position = save_pos
 
+    return true if castle_check?(piece)
+    
     # exit the execution if the relevant rook has moved
     if y == 2 
      return true if l_rook.first_move == false
@@ -165,6 +168,28 @@ class Board
 
     true
 
+  end
+
+  def castle_check?(piece)
+    x, y = piece.position[0].to_i, piece.position[1].to_i
+    old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
+
+    if y == 6
+      directions = [0, 1], [0, 2]
+    elsif y == 2
+      directions = [0, -1], [0, -2]
+    end
+
+    directions.each do |dx, dy|
+      i, j = old_x + dx, old_y + dy
+
+      in_check = check?(nil, i, j, piece.color)
+
+      return true if in_check
+    end
+
+    false
+      
   end
 
   def king_in_danger?(piece)
