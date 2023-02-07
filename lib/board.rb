@@ -104,8 +104,14 @@ class Board
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
     
     rooks = board.flatten.select { |p| p.is_a?(Rook) && p.color == piece.color }
-    l_rook = rooks[0]
-    r_rook = rooks[1]
+
+    if rooks.length >= 2
+      l_rook = rooks[0]
+      r_rook = rooks[1]
+    else
+      l_rook = rooks[0] if rooks[0].position[1].to_i == 0
+      r_rook = rooks[0] if rooks[0].position[1].to_i == 7
+    end
 
     return false unless piece.is_a?(King)
 
@@ -121,6 +127,7 @@ class Board
     # revert the king's position back
     piece.position = save_pos
 
+    # check the positions along the kings path for check
     return true if castle_check?(piece)
     
     # exit the execution if the relevant rook has moved
