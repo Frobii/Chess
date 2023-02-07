@@ -62,6 +62,36 @@ describe "#castled?" do
             expect(chess.board[0][6].symbol).to eq "♚ "
             expect(chess.board[0][5].symbol).to eq "♜ "
         end
+
+        it "doesn't allow it if the king has moved already" do
+            w_king.move_to('6 4')
+            chess.update_position(w_king)
+            w_king.move_to('7 4')
+            chess.update_position(w_king)
+            w_king.move_to('7 6')
+            chess.update_position(w_king)
+            expect(chess.board[7][4].symbol).to eq "♔ "
+        end
+
+        it "doesn't allow it if a rook has moved already" do
+            w_right.move_to('7 6')
+            chess.update_position(w_right)
+            w_right.move_to('7 7')
+            chess.update_position(w_right)
+            w_king.move_to('7 6')
+            chess.update_position(w_king)
+            expect(chess.board[7][7].symbol).to eq "♖ "
+        end
+
+        it "doesn't allow it if the king is in check" do
+            b_right.move_to('1 7')
+            chess.update_position(b_right)
+            b_right.move_to('1 4')
+            chess.update_position(b_right)
+            w_king.move_to('7 6')
+            chess.update_position(w_king)
+            expect(chess.board[7][4].symbol).to eq "♔ "
+        end
         
     end
 
