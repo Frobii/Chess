@@ -13,7 +13,6 @@ describe "#castled?" do
     let(:b_left) { chess.board[0][0] }
     let(:b_right) { chess.board[0][7] }
     
-
     context "when a king attempts to castle" do
 
         before do
@@ -42,21 +41,21 @@ describe "#castled?" do
             expect(chess.board[7][3].symbol).to eq "♖ "
         end
 
-        it "allows a legal move from the white king to y2" do
+        it "allows a legal move from the white king to y6" do
             w_king.move_to('7 6')
             chess.update_position(w_king)
             expect(chess.board[7][6].symbol).to eq "♔ "
             expect(chess.board[7][5].symbol).to eq "♖ "
         end
 
-        it "allows a legal move from the black king to y6" do
+        it "allows a legal move from the black king to y2" do
             b_king.move_to('0 2')
             chess.update_position(b_king)
             expect(chess.board[0][2].symbol).to eq "♚ "
             expect(chess.board[0][3].symbol).to eq "♜ "
         end
 
-        it "allows a legal move from the black king to y2" do
+        it "allows a legal move from the black king to y6" do
             b_king.move_to('0 6')
             chess.update_position(b_king)
             expect(chess.board[0][6].symbol).to eq "♚ "
@@ -141,6 +140,22 @@ describe "#castled?" do
             b_king.move_to('0 2')
             chess.update_position(b_king)
             expect(chess.board[0][4].symbol).to eq "♚ "
+        end
+
+        it "allows a legal move from the white king to y6 when there is one rook" do
+            chess.board[7][0] = nil
+            w_king.move_to('7 6')
+            chess.update_position(w_king)
+            expect(chess.board[7][6].symbol).to eq "♔ "
+            expect(chess.board[7][5].symbol).to eq "♖ "
+        end
+
+        it "allows a legal move from the white king to y2 when there is one rook" do
+            chess.board[7][7] = nil
+            w_king.move_to('7 2')
+            chess.update_position(w_king)
+            expect(chess.board[7][2].symbol).to eq "♔ "
+            expect(chess.board[7][3].symbol).to eq "♖ "
         end
         
     end
