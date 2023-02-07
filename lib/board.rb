@@ -167,7 +167,6 @@ class Board
 
   end
 
-  #  HAVING SOME MAJOR ISSUES WITH THIS METHOD
   def king_in_danger?(piece)
     king = board.flatten.select { |p| p.is_a?(King) && p.color == piece.color }.first
 
