@@ -100,7 +100,7 @@ describe "#move_to" do
 
 end
 
-describe "#upgrade_pawn" do
+describe "#upgrade_pawn_white" do
     subject(:chess) { Board.new }
     
     let(:pawn) { chess.board[6][0] }
@@ -125,11 +125,96 @@ describe "#upgrade_pawn" do
         chess.draw_board
     end
 
-    it "upgrades a pawn to a queen" do
+    it "upgrades a white pawn to a queen" do
         allow(chess).to receive(:gets).and_return("1")
         pawn.move_to('0 0')
         chess.update_position(pawn)
         expect(chess.board[0][0].symbol).to eq "♕ "
+    end
+
+    it "upgrades a white pawn to a Rook" do
+        allow(chess).to receive(:gets).and_return("2")
+        pawn.move_to('0 0')
+        chess.update_position(pawn)
+        expect(chess.board[0][0].symbol).to eq "♖ "
+    end
+
+    it "upgrades a white pawn to a Knight" do
+        allow(chess).to receive(:gets).and_return("3")
+        pawn.move_to('0 0')
+        chess.update_position(pawn)
+        expect(chess.board[0][0].symbol).to eq "♘ "
+    end
+
+    it "upgrades a white pawn to a Bishop" do
+        allow(chess).to receive(:gets).and_return("4")
+        pawn.move_to('0 0')
+        chess.update_position(pawn)
+        expect(chess.board[0][0].symbol).to eq "♗ "
+    end
+
+    it "behaves as expected upon an wrong input" do
+        allow(chess).to receive(:gets).and_return("100")
+        allow(chess).to receive(:gets).and_return("1")
+        pawn.move_to('0 0')
+        chess.update_position(pawn)
+        expect(chess.board[0][0].symbol).to eq "♕ "
+    end
+    
+
+end
+
+describe "#upgrade_pawn_black" do
+    subject(:chess) { Board.new }
+    
+    let(:pawn) { chess.board[1][0] }
+    
+    before do
+        # remove the pieces for ease of testing
+        chess.board[0].map! {|piece| piece = nil}
+        chess.board[6].map! {|pawn| pawn = nil}
+        chess.board[7].map! {|piece| piece = nil}
+        pawn.move_to('3 0')
+        chess.update_position(pawn)
+        pawn.move_to('4 0')
+        chess.update_position(pawn)
+        pawn.move_to('5 0')
+        chess.update_position(pawn)
+        pawn.move_to('6 0')
+        chess.update_position(pawn)
+    end
+    
+    after do
+        puts "\n"
+        chess.draw_board
+    end
+
+    it "upgrades a black pawn to a queen" do
+        allow(chess).to receive(:gets).and_return("1")
+        pawn.move_to('7 0')
+        chess.update_position(pawn)
+        expect(chess.board[7][0].symbol).to eq "♛ "
+    end
+
+    it "upgrades a black pawn to a Rook" do
+        allow(chess).to receive(:gets).and_return("2")
+        pawn.move_to('7 0')
+        chess.update_position(pawn)
+        expect(chess.board[7][0].symbol).to eq "♜ "
+    end
+
+    it "upgrades a black pawn to a Knight" do
+        allow(chess).to receive(:gets).and_return("3")
+        pawn.move_to('7 0')
+        chess.update_position(pawn)
+        expect(chess.board[7][0].symbol).to eq "♞ "
+    end
+
+    it "upgrades a black pawn to a Bishop" do
+        allow(chess).to receive(:gets).and_return("4")
+        pawn.move_to('7 0')
+        chess.update_position(pawn)
+        expect(chess.board[7][0].symbol).to eq "♝ "
     end
     
 
