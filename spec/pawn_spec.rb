@@ -99,3 +99,38 @@ describe "#move_to" do
     end
 
 end
+
+describe "#upgrade_pawn" do
+    subject(:chess) { Board.new }
+    
+    let(:pawn) { chess.board[6][0] }
+    
+    before do
+        # remove the pieces for ease of testing
+        chess.board[0].map! {|piece| piece = nil}
+        chess.board[1].map! {|pawn| pawn = nil}
+        chess.board[7].map! {|piece| piece = nil}
+        pawn.move_to('4 0')
+        chess.update_position(pawn)
+        pawn.move_to('3 0')
+        chess.update_position(pawn)
+        pawn.move_to('2 0')
+        chess.update_position(pawn)
+        pawn.move_to('1 0')
+        chess.update_position(pawn)
+    end
+    
+    after do
+        puts "\n"
+        chess.draw_board
+    end
+
+    it "upgrades a pawn to a queen" do
+        allow(chess).to receive(:gets).and_return("1")
+        pawn.move_to('0 0')
+        chess.update_position(pawn)
+        expect(chess.board[0][0].symbol).to eq "♕ "
+    end
+    
+
+end

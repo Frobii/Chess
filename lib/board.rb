@@ -84,7 +84,7 @@ class Board
     
     return if check?(piece)
 
-    # a castled method handles it's own movement
+    # the castled method handles it's own movement: return true at 
     return if castled?(piece)
     
     # places nil where the piece used to be
@@ -96,12 +96,45 @@ class Board
     board[x][y] = piece
 
     piece.first_move = false if piece.is_a?(Rook) || piece.is_a?(King)
+
+    upgrade_pawn(piece, x, y)  if pawn_upgradable?(piece, x, y) 
     
   end
 
+  def pawn_upgradable?(piece, x, y)
+    return false if !piece.is_a?(Pawn)
+    
+    if piece.color == "w"
+      return false if x != 0
+    elsif piece.color == "b"
+      return false if x != 7
+    end
+
+    true
+
+  end
+
+  def upgrade_pawn(piece, x, y)
+    puts "Select your upgrade..."
+    puts "1: Queen, 2: Rook, 3: Knight, 4: Bishop"
+
+    input = gets.chomp.to_i until input.is_a?(Integer) && input.between?(1, 4)
+
+    board[x][y] = Queen.new(piece.color, [x, y]) if input == 1
+    board[x][y] = Rook.new(piece.color, [x, y]) if input == 2
+    board[x][y] = Knight.new(piece.color, [x, y]) if input == 3
+    board[x][y] = Bishop.new(piece.color, [x, y]) if input == 4
+
+  end
+
   def castled?(piece)
+    return false unless piece.is_a?(King)
+
     x, y = piece.position[0].to_i, piece.position[1].to_i
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
+
+    # return when the king is making a regular move 
+    return false if y != 2 && y != 6
     
     rooks = board.flatten.select { |p| p.is_a?(Rook) && p.color == piece.color }
 
@@ -112,11 +145,6 @@ class Board
       l_rook = rooks[0] if rooks[0].position[1].to_i == 0
       r_rook = rooks[0] if rooks[0].position[1].to_i == 7
     end
-
-    return false unless piece.is_a?(King)
-
-    # return when the king is making a regular move 
-    return false if y != 2 && y != 6
 
     # set the pos to old_pos before check? due to the way check handles positions
     save_pos = piece.position
@@ -202,6 +230,9 @@ class Board
   def king_in_danger?(piece)
     king = board.flatten.select { |p| p.is_a?(King) && p.color == piece.color }.first
 
+    # return false when there are no kings (used for tests)
+    return false if king == nil
+
     x, y = piece.position[0].to_i, piece.position[1].to_i
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
 
@@ -210,7 +241,7 @@ class Board
 
     # temporarily update the pieces position
     board[x][y] = piece
-    board[old_x][old_y] = dont_update 
+    board[old_x][old_y] = dont_update
 
     # see if the move put the king in check
     danger = check?(king)
