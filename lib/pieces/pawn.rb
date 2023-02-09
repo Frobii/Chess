@@ -35,6 +35,10 @@ class Pawn < Piece
                     self.position = self.old_position
                     self.old_position = nil
                 end
+            # reset any starting move greater than 2 spaces
+            elsif old_x == 6 && x != 4 && x != 5
+                self.position = self.old_position
+                self.old_position = nil
             end
         end
 
@@ -44,6 +48,9 @@ class Pawn < Piece
                     self.position = self.old_position
                     self.old_position = nil
                 end
+            elsif old_x == 1 && x != 3 && x != 2
+                self.position = self.old_position
+                self.old_position = nil
             end
         end
 
