@@ -13,6 +13,12 @@ describe "#move_to" do
             expect(chess.board[5][0].symbol).to eq "♙ "
         end
 
+        it "allows the pawn to move forwards two positions" do
+            piece.move_to("4 0")
+            chess.update_position(piece)
+            expect(chess.board[4][0].symbol).to eq "♙ "
+        end
+
         it "updates the previous location to nil on the board" do
             piece.move_to("5 0")
             chess.update_position(piece)
@@ -32,6 +38,13 @@ describe "#move_to" do
             chess.update_position(piece)
             expect(chess.board[6][0].symbol).to eq "♙ "
         end
+
+        it "doesn't allow the pawn to move 3 spaces on it's first move" do
+            piece.move_to("3 0")
+            chess.update_position(piece)
+            expect(chess.board[6][0].symbol).to eq "♙ "
+        end
+        
 
     end
 
@@ -217,5 +230,4 @@ describe "#upgrade_pawn_black" do
         expect(chess.board[7][0].symbol).to eq "♝ "
     end
     
-
 end
