@@ -3,10 +3,23 @@ require 'colorize'
 module Play_Game
     
     def play
+
         loop do
             make_move("w")
+            break if game_over?("b")
+
             make_move("b")
+            break if game_over?("w")
         end
+
+        puts "White wins!".green if game_over?("b")
+        puts "Black wins!".green if game_over?("w")
+
+    end
+
+    def game_over?(color)
+        king = board.flatten.select { |p| p.is_a?(King) && p.color == color }.first
+        return check_mate?(king)
     end
 
     def make_move(player)
@@ -41,7 +54,7 @@ module Play_Game
             puts "\n"
 
             piece.move_to(move.join(" "))
-            
+
             update_position(piece)
 
             x,y = move[0].to_i, move[1].to_i
@@ -49,6 +62,7 @@ module Play_Game
             break if board[x][y] == piece
             
             puts "the piece you chose cannot be moved in that way".red
+            
         end
         
 

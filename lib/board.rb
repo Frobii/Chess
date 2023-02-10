@@ -90,8 +90,8 @@ class Board
     return if castled?(piece)
     
     # places nil where the piece used to be
-    x, y = piece.old_position[0].to_i, piece.old_position[1].to_i
-    board[x][y] = nil
+    old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
+    board[old_x][old_y] = nil
 
     # places the piece where the user decided to make a move
     x, y = piece.position[0].to_i, piece.position[1].to_i
@@ -255,6 +255,7 @@ class Board
     return danger
   end
 
+  # INVALID TAKE IS CAUSING DUPLICATION & INCORRECT ERRORS DURING GAMEPLAY
   def invalid_take?(piece)
     # gather the coordinates of the pieces target and old position
     x, y = piece.position[0].to_i, piece.position[1].to_i
@@ -312,7 +313,7 @@ class Board
       if old_x > x && old_y > y
         ((old_x - 1).downto(x + 1)).each_with_index do |col, i|
           row = old_y - i - 1
-          return !board[col][row].nil? if !board[col][row].nil?
+          return true if !board[col][row].nil?
         end
       end
     
@@ -320,7 +321,7 @@ class Board
       if old_x < x && old_y < y
         ((old_x + 1)..(x - 1)).each_with_index do |col, i|
           row = old_y + i + 1
-          return !board[col][row].nil? if !board[col][row].nil?
+          return true if !board[col][row].nil?
         end
       end
 
@@ -328,15 +329,17 @@ class Board
       if old_x < x && old_y > y
         ((old_x + 1)..(x - 1)).each_with_index do |col, i|
           row = old_y - i - 1
-          return !board[col][row].nil? if !board[col][row].nil?
+          return true if !board[col][row].nil?
         end
       end
 
       # bottom left to top right
       if old_x > x && old_y < y
-        ((x + 1)..(old_x - 1)).each_with_index do |col, i|
+        ((old_x - 1).downto(x + 1)).each_with_index do |col, i|
+          p col
           row = old_y + i + 1
-          return !board[col][row].nil? if !board[col][row].nil?
+          p row
+          return true if !board[col][row].nil?
         end
       end
       
@@ -363,6 +366,6 @@ class Board
   
 end
 
-chess = Board.new
+# chess = Board.new
 
-chess.play
+# chess.play
