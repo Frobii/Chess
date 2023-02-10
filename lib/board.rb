@@ -255,7 +255,6 @@ class Board
     return danger
   end
 
-  # INVALID TAKE IS CAUSING DUPLICATION & INCORRECT ERRORS DURING GAMEPLAY
   def invalid_take?(piece)
     # gather the coordinates of the pieces target and old position
     x, y = piece.position[0].to_i, piece.position[1].to_i
@@ -278,7 +277,7 @@ class Board
           # take and add one to exclude the piece and target from the equation
           ((x + 1)..(old_x - 1)).each do |col|
             # check each piece between the two to see if there is a blockage
-            return !board[col][y].nil? if !board[col][y].nil?
+            return true if !board[col][y].nil?
           end
           
         end
@@ -287,20 +286,20 @@ class Board
           # take and add one to exclude the piece and target from the equation
           ((old_x + 1)..(x - 1)).each do |col|
             # check each piece between the two to see if there is a blockage
-            return !board[col][y].nil? if !board[col][y].nil?
+            return true if !board[col][y].nil?
           end
           
         end
         
         if old_y > y
           ((y + 1)..(old_y - 1)).each do |row|
-            return !board[x][row].nil? if !board[x][row].nil?
+            return true if !board[x][row].nil?
           end
         end
         
         if old_y < y
           ((old_y + 1)..(y - 1)).each do |row|
-            return !board[x][row].nil? if !board[x][row].nil?
+            return true if !board[x][row].nil?
           end
         end
       end
@@ -366,6 +365,6 @@ class Board
   
 end
 
-# chess = Board.new
+chess = Board.new
 
-# chess.play
+chess.play
