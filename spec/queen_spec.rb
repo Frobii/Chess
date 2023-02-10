@@ -85,7 +85,7 @@ describe "#move_to" do
             chess.update_position(enemy_queen)
             expect(chess.board[3][0].symbol).to eq "♛ "
         end
-        
+
     end
     
 end

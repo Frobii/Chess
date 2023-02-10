@@ -5,9 +5,11 @@ require_relative "./pieces/rook.rb"
 require_relative "./pieces/knight.rb"
 require_relative "./pieces/bishop.rb"
 require_relative "./check.rb"
+require_relative "./game.rb"
 
 class Board
   include Check_Rules
+  include Play_Game
   attr_accessor :board
 
   def initialize
@@ -84,7 +86,7 @@ class Board
     
     return if check?(piece)
 
-    # the castled method handles it's own movement: return true at 
+    # the castled method handles it's own movement
     return if castled?(piece)
     
     # places nil where the piece used to be
@@ -97,7 +99,7 @@ class Board
 
     piece.first_move = false if piece.is_a?(Rook) || piece.is_a?(King)
 
-    upgrade_pawn(piece, x, y)  if pawn_upgradable?(piece, x, y) 
+    upgrade_pawn(piece, x, y) if pawn_upgradable?(piece, x, y) 
     
   end
 
@@ -360,3 +362,7 @@ class Board
   end
   
 end
+
+chess = Board.new
+
+chess.play
