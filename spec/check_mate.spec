@@ -104,3 +104,53 @@ describe "#check_mate?" do
     end
 
 end
+
+describe "#check_mate?" do
+    subject(:chess) { Board.new }
+  
+    # white pieces
+    let(:black_king) { chess.board[0][4] }
+
+    # black pieces
+    let(:l_rook) { chess.board[7][0] }
+    let(:l_knight) { chess.board[7][1] }
+    let(:l_bishop) { chess.board[7][2] }
+    let(:white_queen) { chess.board[7][3] }
+    let(:white_king) { chess.board[7][4] }
+    let(:r_bishop) { chess.board[7][5] }
+    let(:r_knight) { chess.board[7][6] }
+    let(:r_rook) { chess.board[7][7] }
+
+    context "when check_mate? is run" do
+
+        before do
+            # remove the pieces for ease of testing
+            chess.board[0].map! {|piece| piece = nil}
+            chess.board[1].map! {|pawn| pawn = nil}
+            chess.board[6].map! {|pawn| pawn = nil}
+            chess.board[3][3] = Pawn.new("b", [4,3])
+            chess.board[4][4] = Pawn.new("w", [5,4])
+            chess.board[0][4] = King.new("b", [0,4])
+        end
+
+        after do
+            puts "\n"
+            chess.draw_board
+        end
+
+        it "returns true when a black king is pinned by a white queen" do
+            white_queen.move_to("5 1")
+            chess.update_position(white_queen)
+            white_queen.move_to("1 1")
+            chess.update_position(white_queen)
+            r_rook.move_to("1 7")
+            chess.update_position(r_rook)
+            white_queen.move_to("1 4")
+            chess.update_position(white_queen)
+            expect(chess.check_mate?(black_king)).to be(true)
+        end
+        
+    end
+
+end
+    

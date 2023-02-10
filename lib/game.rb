@@ -61,7 +61,7 @@ module Play_Game
 
             break if board[x][y] == piece
             
-            puts "the piece you chose cannot be moved in that way".red
+            puts "the piece you chose cannot be moved that way".red
             
         end
         
