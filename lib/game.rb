@@ -12,6 +12,7 @@ module Play_Game
             break if game_over?("w")
         end
 
+        draw_board
         puts "White wins!".green if game_over?("b")
         puts "Black wins!".green if game_over?("w")
 
@@ -51,15 +52,18 @@ module Play_Game
                 break if move.length == 2 && move.all? { |num| num.to_i.is_a?(Integer)} && move.all? { |num| num.to_i.between?(0,7)}
             end
 
-            puts "\n"
+            new_x,new_y = move[0].to_i, move[1].to_i
 
+            puts "\n", "You must move a piece".red if x == new_x && y == new_y
+            next if x == new_x && y == new_y
+            
             piece.move_to(move.join(" "))
-
+            
             update_position(piece)
-
-            x,y = move[0].to_i, move[1].to_i
-
-            break if board[x][y] == piece
+            
+            puts "\n"
+            
+            break if board[new_x][new_y] == piece
             
             puts "the piece you chose cannot be moved that way".red
             

@@ -8,6 +8,7 @@ class Piece
     end
 
     def move_to(input)
+
         @old_position = @position
 
         new_position = input.split(" ")

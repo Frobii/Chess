@@ -89,12 +89,11 @@ class Board
     # the castled method handles it's own movement
     return if castled?(piece)
     
-    # places nil where the piece used to be
     old_x, old_y = piece.old_position[0].to_i, piece.old_position[1].to_i
-    board[old_x][old_y] = nil
-
-    # places the piece where the user decided to make a move
     x, y = piece.position[0].to_i, piece.position[1].to_i
+
+    # places the piece where the user decided to make a move & nil where the piece used to be
+    board[old_x][old_y] = nil
     board[x][y] = piece
 
     piece.first_move = false if piece.is_a?(Rook) || piece.is_a?(King)
@@ -365,6 +364,6 @@ class Board
   
 end
 
-chess = Board.new
+# chess = Board.new
 
-chess.play
+# chess.play

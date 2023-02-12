@@ -81,11 +81,13 @@ module Check_Rules
 
         x, y = king.position[0].to_i, king.position[1].to_i
 
-        king_directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
+        king_directions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1], [0, 0]]
 
         king_directions.each do |dx, dy|
             i, j = x + dx, y + dy
             next if i < 0 || i > 7 || j < 0 || j > 7
+            # don't check for positions which are taken
+            next if !board[i][j].nil?
             
             # remove the king from the board so that it doesn't block a taker from itself during the check? verification
             board[x][y] = nil
