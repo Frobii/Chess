@@ -107,4 +107,55 @@ describe "#check?" do
 
     end
 
+    
+
+end
+
+describe "#check?" do
+    subject(:chess) { Board.new }
+  
+    # white pieces
+    let(:w_king) { chess.board[7][4] }
+    let(:w_queen) { chess.board[7][3] }
+    let(:w_pawn4) { chess.board[6][3] }
+
+    # black pieces
+    let(:b_king) { chess.board[0][4] }
+    let(:b_queen) { chess.board[0][3] }
+    let(:br_bishop) { chess.board[0][5] }
+    let(:bl_rook) { chess.board[0][0] }
+    let(:b_pawn1) { chess.board[1][0] }
+    
+
+    context "when a king is in check" do
+
+        before do
+            w_pawn4.move_to("4 3")
+            chess.update_position(w_pawn4)
+            b_pawn1.move_to("3 0")
+            chess.update_position(b_pawn1)
+            w_queen.move_to("5 3")
+            chess.update_position(w_queen)
+            bl_rook.move_to("2 0")
+            chess.update_position(bl_rook)
+            w_queen.move_to("4 4")
+            chess.update_position(w_queen)
+            bl_rook.move_to("2 3")
+            chess.update_position(bl_rook)
+            w_queen.move_to("1 4")
+            chess.update_position(w_queen)
+        end
+
+        after do
+            chess.draw_board
+        end
+
+        it "allows a bishop to defend by taking" do
+            br_bishop.move_to("1 4")
+            chess.update_position(br_bishop)
+            expect(chess.board[1][4].is_a?(Bishop)).to eq true
+        end
+
+    end
+
 end
