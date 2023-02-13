@@ -242,7 +242,7 @@ class Board
 
     # temporarily update the pieces position
     board[x][y] = piece
-    board[old_x][old_y] = dont_update
+    board[old_x][old_y] = nil
 
     # see if the move put the king in check
     danger = check?(king)
