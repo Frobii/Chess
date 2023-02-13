@@ -14,7 +14,7 @@ module Play_Game
 
         draw_board
         puts "White wins!".green if game_over?("b")
-        puts "Black wins!".green if game_over?("w")
+        puts "Black wins!".blue if game_over?("w")
 
     end
 
@@ -33,8 +33,8 @@ module Play_Game
             color = "Black".blue if player == 'b'
 
             loop do
-                puts "#{color}, select a piece with the following format: 'x y'"
-                selection = gets.chomp.split(" ")
+                puts "#{color}, select a piece with the following format: 'xy'"
+                selection = gets.chomp.split("")
                 break if selection.length == 2 && selection.all? { |num| num.to_i.is_a?(Integer)} && selection.all? { |num| num.to_i.between?(0,7)}
             end
             
@@ -47,8 +47,8 @@ module Play_Game
             next if piece.nil? || piece.color != player
 
             loop do
-                puts "Select it's location with the following format: 'x y'"
-                move = gets.chomp.split(" ") 
+                puts "Select it's location with the following format: 'xy'"
+                move = gets.chomp.split("")
                 break if move.length == 2 && move.all? { |num| num.to_i.is_a?(Integer)} && move.all? { |num| num.to_i.between?(0,7)}
             end
 
