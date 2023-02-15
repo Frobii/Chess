@@ -1,20 +1,103 @@
 require 'colorize'
+require 'json'
 
 module Play_Game
+    attr_accessor :menu_choice
     
-    def play
+    def play(turn = "w", board = @board)
+       
+        puts "Type #{"new".red} to initialize a new game"
+        puts "Type #{"load".blue} to load a game in progress"
+        puts "Type #{"save".green} at any point to save your current game"
 
         loop do
-            make_move("w")
-            break if game_over?("b")
-
-            make_move("b")
-            break if game_over?("w")
+            @menu_choice = gets.chomp
+            break if menu_choice.downcase == "new" || menu_choice.downcase == "load"
+            puts "Type #{"new".red} to initialize a new game"
+            puts "Type #{"load".blue} to load a game in progress"
+            puts "Type #{"save".green} at any point to save your current game"
         end
 
-        draw_board
-        puts "White wins!".green if game_over?("b")
-        puts "Black wins!".blue if game_over?("w")
+        puts "\n"
+
+        if menu_choice == "new"
+            game_cycle(turn)
+
+        elsif menu_choice == "load"
+            load_game
+
+        end
+
+    end
+
+    def game_cycle(turn)
+        loop do
+            make_move(turn) if turn == "w"
+            turn = "b"
+
+            if game_over?("b")
+                draw_board
+                puts "Checkmate"
+                puts "White wins!".green if game_over?("b")
+                break
+            end
+
+            make_move(turn) if turn == "b"
+            turn = "w"
+
+            if game_over?("w")
+                draw_board
+                puts "Checkmate"
+                puts "Black wins!".blue if game_over?("w")
+                break 
+            end
+
+        end
+    end
+
+    def save_game(turn)
+        Dir.mkdir('./saves') unless Dir.exist?('./saves')
+
+        save = 1
+
+        while File.exist?("./saves/" + save.to_s + ".json")
+            save += 1 
+        end
+
+        filename = "./saves/" + save.to_s + ".json"
+
+        data = {
+            :turn => turn,
+            :board => @board
+        }
+    
+        File.open(filename, 'w') do |file|
+            file.write(data.to_json(create_additions: true)) 
+        end
+
+        puts "Your save number is: ".cyan + "#{save.to_s}".cyan.bold
+        exit()
+    
+    end
+
+    def load_game
+        puts "Please enter your save number".cyan
+        file_number = gets.chomp.to_s
+
+        # begin
+            file = File.read("./saves/#{file_number}.json")
+            serialized_data = JSON.parse(file, create_additions: true)
+        # rescue 
+        #     puts "The specified save number cannot be found".red
+        #     puts "\n"
+        #     return
+        # end 
+
+        puts "\n"
+        turn = serialized_data["turn"]
+        @board = serialized_data["board"]
+
+        game_cycle(turn)
 
     end
 
@@ -23,28 +106,30 @@ module Play_Game
         return check_mate?(king)
     end
 
-    def make_move(player)
+    def make_move(turn)
         loop do
             draw_board
             selection = ''
             move = ''
 
-            color = "White".green if player == 'w'
-            color = "Black".blue if player == 'b'
+            color = "White".green if turn == 'w'
+            color = "Black".blue if turn == 'b'
 
             loop do
                 puts "#{color}, select a piece with the following format: 'xy'"
                 selection = gets.chomp.split("")
+                save_game(turn) if selection.join("") == "save"
+                return if selection.join("") == "save"
                 break if selection.length == 2 && selection.all? { |num| num.to_i.is_a?(Integer)} && selection.all? { |num| num.to_i.between?(0,7)}
             end
             
             x,y = selection[0].to_i, selection[1].to_i
             piece = board[x][y]
 
-            puts "\n" if piece.nil? || piece.color != player
-            puts "invalid selection".red if piece.nil? || piece.color != player
+            puts "\n" if piece.nil? || piece.color != turn
+            puts "invalid selection".red if piece.nil? || piece.color != turn
 
-            next if piece.nil? || piece.color != player
+            next if piece.nil? || piece.color != turn
 
             loop do
                 puts "Select it's location with the following format: 'xy'"
@@ -69,7 +154,6 @@ module Play_Game
             
         end
         
-
     end
 
 end

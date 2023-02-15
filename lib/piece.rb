@@ -15,4 +15,17 @@ class Piece
         @position = new_position
 
     end
+
+    def self.json_create(data)
+        new(data['color'], data['position'], data['old_position'])
+    end
+    
+    def to_json(*args)
+        {
+            JSON.create_id => self.class.name,
+            'color' => @color,
+            'position' => @position,
+            'old_position' => @old_position
+        }.to_json(*args)
+    end
 end
