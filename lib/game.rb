@@ -6,27 +6,28 @@ module Play_Game
     
     def play(turn = "w", board = @board)
        
-        puts "Type #{"new".red} to initialize a new game"
+        puts "Type #{"new".cyan} to initialize a new game"
         puts "Type #{"load".blue} to load a game in progress"
         puts "Type #{"save".green} at any point to save your current game"
+        puts "Type #{"exit".red} to leave this menu and quit the game"
 
         loop do
             @menu_choice = gets.chomp
-            break if menu_choice.downcase == "new" || menu_choice.downcase == "load"
-            puts "Type #{"new".red} to initialize a new game"
+            break if menu_choice.downcase == "new" || menu_choice.downcase == "load" || menu_choice.downcase == "exit"
+            puts "\n"
+            puts "Type #{"new".cyan} to initialize a new game"
             puts "Type #{"load".blue} to load a game in progress"
             puts "Type #{"save".green} at any point to save your current game"
+            puts "Type #{"exit".red} to leave this menu and quit the game"
         end
 
         puts "\n"
 
-        if menu_choice == "new"
-            game_cycle(turn)
+        return if menu_choice == "exit"
 
-        elsif menu_choice == "load"
-            load_game
+        game_cycle(turn) if menu_choice == "new"
 
-        end
+        load_game if menu_choice == "load"
 
     end
 
@@ -37,8 +38,8 @@ module Play_Game
 
             if game_over?("b")
                 draw_board
-                puts "Checkmate"
-                puts "White wins!".green if game_over?("b")
+                puts "Checkmate!"
+                puts "White wins!".green
                 break
             end
 
@@ -47,8 +48,8 @@ module Play_Game
 
             if game_over?("w")
                 draw_board
-                puts "Checkmate"
-                puts "Black wins!".blue if game_over?("w")
+                puts "Checkmate!"
+                puts "Black wins!".blue
                 break 
             end
 
