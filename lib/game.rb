@@ -144,7 +144,6 @@ module Play_Game
             next if x == new_x && y == new_y
             
             piece.move_to(move.join(" "))
-            
             update_position(piece)
             
             puts "\n"
