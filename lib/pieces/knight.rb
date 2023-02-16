@@ -28,6 +28,7 @@ class Knight < Piece
             if index == 7
                 self.position = self.old_position
                 self.old_position = nil
+                return
             end
         end
 

@@ -22,11 +22,13 @@ class Queen < Piece
                     if (old_x - x) != (old_y - y)
                         self.position = self.old_position
                         self.old_position = nil
+                        return
                     end
                 else
                     if (old_x - x) != (y - old_y)
                         self.position = self.old_position
                         self.old_position = nil
+                        return
                     end
                 end
             else
@@ -34,11 +36,13 @@ class Queen < Piece
                     if (x - old_x) != (old_y - y)
                         self.position = self.old_position
                         self.old_position = nil
+                        return
                     end
                 else
                     if (x - old_x) != (y - old_y)
                         self.position = self.old_position
                         self.old_position = nil
+                        return
                     end
                 end
             end

@@ -27,21 +27,25 @@ class King < Piece
             if (old_x - x) > 1
                 self.position = self.old_position
                 self.old_position = nil
+                return
             end
         elsif x > old_x
             if (x - old_x) > 1
                 self.position = self.old_position
                 self.old_position = nil
+                return
             end
         elsif old_y > y
             if (old_y - y) > 1
                 self.position = self.old_position
                 self.old_position = nil
+                return
             end
         elsif y > old_y
             if (y - old_y) > 1
                 self.position = self.old_position
                 self.old_position = nil
+                return
             end
         end
 

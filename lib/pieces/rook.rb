@@ -20,6 +20,7 @@ class Rook < Piece
         if x != old_x && y != old_y
             self.position = self.old_position
             self.old_position = nil
+            return
         end
 
     end
