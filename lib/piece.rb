@@ -5,13 +5,12 @@ class Piece
         @color = color
         @position = position
         @old_position = old_position
+
     end
 
     def move_to(input)
-
-        @old_position = @position
-
         new_position = input.split(" ")
+        @old_position = @position
         @position = new_position
 
     end
