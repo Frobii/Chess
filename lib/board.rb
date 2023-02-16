@@ -363,7 +363,3 @@ class Board
   end
   
 end
-
-# chess = Board.new
-
-# chess.play
